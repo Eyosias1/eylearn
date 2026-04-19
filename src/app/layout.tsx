@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { AppHeader } from "@/components/layout/app-header";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -26,8 +27,10 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${jakarta.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="h-screen ">
+      <body className="h-screen">
+        <ThemeProvider>
         <TooltipProvider>
           <SidebarProvider>
             <AppSidebar />
@@ -39,6 +42,7 @@ export default function RootLayout({
             </SidebarInset>
           </SidebarProvider>
         </TooltipProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

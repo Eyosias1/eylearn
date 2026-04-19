@@ -4,9 +4,9 @@ import { cn } from "@/lib/utils"
 import type { TopicHealth } from "@/types/study"
 
 const healthConfig: Record<TopicHealth, { bar: string; label: string; labelColor: string; bg: string }> = {
-  green:  { bar: "bg-emerald-500", label: "Strong", labelColor: "text-emerald-600", bg: "bg-emerald-50/40" },
-  yellow: { bar: "bg-yellow-400",  label: "Fading", labelColor: "text-yellow-600",  bg: "bg-yellow-50/40"  },
-  red:    { bar: "bg-red-500",     label: "Weak",   labelColor: "text-red-600",     bg: "bg-red-50/40"     },
+  green:  { bar: "bg-emerald-500", label: "Strong", labelColor: "text-emerald-500 dark:text-emerald-400", bg: "bg-emerald-50/40 dark:bg-emerald-950/30" },
+  yellow: { bar: "bg-yellow-400",  label: "Fading", labelColor: "text-yellow-600 dark:text-yellow-400",   bg: "bg-yellow-50/40 dark:bg-yellow-950/30"  },
+  red:    { bar: "bg-red-500",     label: "Weak",   labelColor: "text-red-600 dark:text-red-400",         bg: "bg-red-50/40 dark:bg-red-950/30"        },
 }
 
 export function TopicHealthBoard() {

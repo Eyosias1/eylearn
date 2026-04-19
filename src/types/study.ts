@@ -27,6 +27,19 @@ export interface TopicRetention {
   history: RetentionPoint[]
 }
 
+export interface StudyDay {
+  date: string
+  minutesStudied: number
+}
+
+export interface ScheduledSession {
+  id: string
+  scheduledFor: string
+  subjects: string[]
+  topics: string[]
+  estimatedMinutes: number
+}
+
 export interface UserStats {
   streak: number
   totalSessions: number
