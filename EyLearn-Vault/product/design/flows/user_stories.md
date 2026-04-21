@@ -76,6 +76,24 @@
 
 ---
 
+## Exam Simulation
+
+- As a user, I want to run a timed exam generated from my course notes so I can practice under real exam conditions.
+- As a user, I want all exam questions shown at once so I can navigate freely and manage my time like a real exam.
+- As a user, I want the exam to weight questions toward my weakest topics so I'm tested hardest on what I know least.
+- As a user, I want the exam to auto-submit when the timer runs out so I experience the same pressure as a real exam.
+- As a user, I want AI to grade my exam in batch and show me per-question feedback so I know exactly where I lost marks.
+
+---
+
+## Elaborative Interrogation
+
+- As a user, I want an optional "go deep" toggle in active recall that asks me why each answer is true so I build understanding, not just memory.
+- As a user, I want to see a depth rating (surface / functional / deep) per question so I know which topics I understand versus just recall.
+- As a user, I want shallow answers flagged even when I got the recall correct so I'm not fooled into thinking I understand something I've only memorized.
+
+---
+
 ## Progress & Analytics
 
 - As a user, I want a dashboard showing my retention score per topic over time so I can track improvement.

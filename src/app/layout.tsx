@@ -35,10 +35,12 @@ export default function RootLayout({
           <SidebarProvider>
             <AppSidebar />
             <SidebarInset>
-              <AppHeader />
-              <main className="flex-1 overflow-auto p-6">
-                {children}
-              </main>
+              <div className="flex flex-1 flex-col overflow-auto pt-[72px]">
+                <AppHeader />
+                <main className="flex-1 p-6">
+                  {children}
+                </main>
+              </div>
             </SidebarInset>
           </SidebarProvider>
         </TooltipProvider>

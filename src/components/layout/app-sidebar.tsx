@@ -3,9 +3,8 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Brain } from "lucide-react"
-import { cn } from "@/lib/utils"
 import { navGroups } from "@/components/layout/nav-config"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { NavUser } from "@/components/layout/nav-user"
 import { Badge } from "@/components/ui/badge"
 import {
   Sidebar,
@@ -22,6 +21,11 @@ import {
 
 export function AppSidebar() {
   const pathname = usePathname()
+  const user = {
+    name: "Eyosias",
+    email: "eyosias16@gmail.com",
+    avatar: "",
+  }
 
   return (
     <Sidebar >
@@ -69,17 +73,7 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="px-4 py-4 border-t">
-        <div className="flex items-center gap-3">
-          <Avatar className="size-8">
-            <AvatarFallback className="text-xs font-semibold bg-primary text-primary-foreground">
-              EY
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex-1 overflow-hidden">
-            <p className="text-sm font-medium truncate">Eyosias</p>
-            <p className="text-xs text-muted-foreground truncate">eyosias16@gmail.com</p>
-          </div>
-        </div>
+        <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>
   )

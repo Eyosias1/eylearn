@@ -53,7 +53,7 @@ Home Dashboard → "Study Now" (or scheduled session from plan)
   │
   ▼
 Select Subjects / Topics
-  │
+  │  (interleave toggle on by default with 2+ subjects)
   ▼
 Optional: Run Pre-Test
   │  (AI generates questions on material — user expected to get most wrong)
@@ -63,28 +63,62 @@ Session Begins
   ├── Question shown (no hints)
   │     │
   │     ▼
-  │   User types answer
+  │   Confidence rating: Low / Medium / High
   │     │
+  │     ▼
+  │   User types answer
+  │     │  (optional: request hint → caps rating at Partial)
   │     ▼
   │   Submit → Correct answer revealed
   │     │
   │     ▼
-  │   User rates: Correct / Partial / Wrong
+  │   User self-rates: Correct / Partial / Wrong
   │     │
   │     ▼
+  │   If Wrong → Micro-reflection prompt: "What did you confuse this with?"
+  │     │  (skippable)
+  │     ▼
   │   Next question (different topic if interleaving is on)
+  │
+  ├── Every 10 questions → Session Checkpoint
+  │     │  (accuracy snapshot per topic, option to end early)
+  │     ▼
+  │   Continue or end session
   │
   ├── Gap Effect Prompt fires randomly
   │     │  "Pause for 10 seconds — let your mind rest"
   │     ▼
   │   User resumes
   │
+  ├── Interleave Switch Prompt (if 2+ subjects, every 25–90 min)
+  │     │  "Switch to [Subject]?"
+  │     ▼
+  │   User continues with next subject
+  │
   ▼
-Session Complete
+Main Pass Complete
+  │
+  ▼
+Weak Spot Re-Queue
+  │  (Wrong + Partial questions get one more pass)
+  │  (second-pass ratings recorded separately)
+  │
+  ▼
+Mistake Review
+  │  (still-wrong answers shown read-only — question + correct answer)
+  │  (no rating, pure re-exposure)
+  │
+  ▼
+AI Grading
+  │  (AI grades all answers in batch using source notes + own knowledge)
+  │  ├── Per-answer verdict + 1-2 sentence feedback
+  │  ├── Pattern observations across session
+  │  ├── Confidence calibration report (overconfident / underconfident moments)
+  │  └── User confirms or overrides each AI-suggested rating
   │
   ▼
 Session Summary
-  │  (score per topic, updated color health, next review dates)
+  │  (per-topic accuracy, updated health colors, next review dates)
   ▼
 Home Dashboard (updated)
 ```
@@ -216,7 +250,79 @@ Study Stats
 
 ---
 
-## 8. Peak Window Detection Flow (Onboarding + Ongoing)
+## 8. Exam Simulation Flow
+
+```
+Home Dashboard → "Exam Simulation"
+  │
+  ▼
+Select Topics + Set Duration (30 / 60 / 90 min)
+  │
+  ▼
+AI generates questions
+  │  - Pulls from course notes (note-ingestion)
+  │  - Weights 60% toward weak/red/yellow topics
+  │  - Uses error history and micro-reflections for question targeting
+  │
+  ▼
+"Start Exam" → session locks
+  │
+  ▼
+All questions shown at once, numbered
+  │
+  ├── User navigates freely (Q1 → Q4 → Q2 etc.)
+  │
+  ├── User fills in answers in any order
+  │
+  ├── 30s warning banner when timer is nearly up
+  │
+  ├── Timer hits 0 → auto-submit
+  │     OR
+  │   User submits early → confirmation dialog
+  │
+  ▼
+All answers locked
+  │
+  ▼
+AI grades all answers in batch
+  │  ├── Per-question verdict + feedback
+  │  ├── Overall score
+  │  └── Topic breakdown
+  │
+  ▼
+Results shown → spaced repetition updated
+  │
+  ▼
+Home Dashboard (updated)
+```
+
+---
+
+## 9. Active Recall + Elaborative Interrogation Flow
+
+Same as Standard Active Recall flow (Flow 3) with one addition after each answer reveal:
+
+```
+  ...
+  │   User self-rates: Correct / Partial / Wrong
+  │     │
+  │     ▼
+  │   Elaborative follow-up (if toggle ON):
+  │     "Why does this work?" / "How does this connect to X?"
+  │     │
+  │     ├── User types explanation → Submit
+  │     │     AI adds depth rating (Surface / Functional / Deep) to batch
+  │     │
+  │     └── User skips → rated Surface
+  │     │
+  │     ▼
+  │   Next question
+  ...
+```
+
+---
+
+## 10. Peak Window Detection Flow (Onboarding + Ongoing)
 
 ```
 Onboarding → Energy Tracking prompt
