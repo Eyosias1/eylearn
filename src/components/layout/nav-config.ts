@@ -1,6 +1,7 @@
 import {
   LayoutDashboard,
   Brain,
+  Network,
   BookOpen,
   PlusCircle,
   CalendarDays,
@@ -13,9 +14,10 @@ export const navGroups: NavGroup[] = [
   {
     title: "Main",
     items: [
-      { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-      { label: "Progress", href: "/progress", icon: Brain },
-      { label: "Study Plan", href: "/plan", icon: CalendarDays },
+      { label: "Dashboard",       href: "/dashboard", icon: LayoutDashboard },
+      { label: "Progress",        href: "/progress",  icon: Brain           },
+      { label: "Knowledge Graph", href: "/graph",     icon: Network         },
+      { label: "Study Plan",      href: "/plan",      icon: CalendarDays    },
     ],
   },
   {
