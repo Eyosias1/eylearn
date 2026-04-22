@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -116,6 +117,47 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 }
+
+
+/* rehype-pretty-code dual theme switching via CSS variables */
+html:not(.dark) code[data-theme] span { color: var(--shiki-light); }
+html:not(.dark) pre[data-theme]  { background-color: var(--shiki-light-bg) !important; }
+html.dark       code[data-theme] span { color: var(--shiki-dark); }
+html.dark       pre[data-theme]  { background-color: var(--shiki-dark-bg) !important; }
+
+/* rehype-pretty-code line numbers */
+/* rehype-pretty-code */
+[data-rehype-pretty-code-figure] pre {
+  overflow-x: auto;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  margin: 1.5rem 0;
+}
+[data-rehype-pretty-code-figure] code {
+  display: grid !important;
+  padding: 1.25rem 0;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+[data-line] {
+  padding: 0 1.25rem;
+}
+/* line numbers */
+code[data-line-numbers] {
+  counter-reset: line;
+}
+code[data-line-numbers] > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 1rem;
+  margin-right: 1.5rem;
+  text-align: right;
+  color: oklch(0.556 0 0);
+  user-select: none;
+}
+code[data-line-numbers-max-digits='2'] > [data-line]::before { width: 1.5rem; }
+code[data-line-numbers-max-digits='3'] > [data-line]::before { width: 2rem; }
 
 @layer base {
   * {
