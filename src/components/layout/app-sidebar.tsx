@@ -28,14 +28,14 @@ export function AppSidebar() {
   }
 
   return (
-    <Sidebar >
-      <SidebarHeader className="px-4 py-5 border-b">
-        <div className="flex items-center gap-2">
-          <div className="flex items-center justify-center size-8 bg-primary rounded-lg">
+    <Sidebar collapsible="icon">
+      <SidebarHeader className=" py-5 border-b">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center justify-center size-8 bg-primary rounded-lg ">
             <Brain className="size-4 text-primary-foreground" />
           </div>
-          <div>
-            <p className="text-sm font-semibold leading-none">eyLearn</p>
+          <div className="group-data-[collapsible=icon]:hidden">
+            <p className="text-sm font-semibold leading-none">EyLearn</p>
             <p className="text-xs text-muted-foreground mt-0.5">Study smarter</p>
           </div>
         </div>

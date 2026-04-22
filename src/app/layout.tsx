@@ -35,15 +35,15 @@ export default function RootLayout({
       className={`${jakarta.variable} ${mono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="h-screen">
+      <body className="h-screen overflow-hidden">
         <ThemeProvider>
         <TooltipProvider>
-          <SidebarProvider>
+          <SidebarProvider className="h-full">
             <AppSidebar />
             <SidebarInset>
-              <div className="flex flex-1 flex-col overflow-auto pt-[72px]">
+              <div className="flex flex-1 flex-col overflow-hidden">
                 <AppHeader />
-                <main className="flex-1 p-6">
+                <main className="relative flex-1 overflow-auto p-6">
                   {children}
                 </main>
               </div>

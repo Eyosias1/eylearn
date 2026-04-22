@@ -5,7 +5,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+:root {
+  --header-height: 4.5rem;
+}
+
 @theme inline {
+  --header-height: var(--header-height);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-jakarta);

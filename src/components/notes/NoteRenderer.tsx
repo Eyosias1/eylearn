@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { JSX } from 'react'
 import parse, { domToReact, type DOMNode, type Element } from 'html-react-parser'
 import { cn } from '@/lib/utils'
@@ -5,17 +6,15 @@ import { CodeBlock } from './CodeBlock'
 import { Mermaid } from './Mermaid'
 import { SmilesDrawer } from './SmilesDrawer'
 import { InlineCode } from './InlineCode'
-import {
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
-} from '@/components/ui/table'
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 
 const tableMap: Record<string, (children: React.ReactNode) => JSX.Element> = {
-  table:  (c) => <div className="not-prose my-6 rounded-xl border border-border overflow-hidden"><Table>{c}</Table></div>,
-  thead:  (c) => <TableHeader>{c}</TableHeader>,
-  tbody:  (c) => <TableBody>{c}</TableBody>,
-  tr:     (c) => <TableRow>{c}</TableRow>,
-  th:     (c) => <TableHead className="px-4 py-3 font-semibold">{c}</TableHead>,
-  td:     (c) => <TableCell className="px-4 py-3">{c}</TableCell>,
+  table: (c) => <div className="not-prose my-6 overflow-hidden rounded-xl border border-border"><Table>{c}</Table></div>,
+  thead: (c) => <TableHeader>{c}</TableHeader>,
+  tbody: (c) => <TableBody>{c}</TableBody>,
+  tr: (c) => <TableRow>{c}</TableRow>,
+  th: (c) => <TableHead className="px-4 py-3 font-semibold">{c}</TableHead>,
+  td: (c) => <TableCell className="px-4 py-3">{c}</TableCell>,
 }
 
 function asElement(node: DOMNode): Element | null {
@@ -34,9 +33,13 @@ function extractText(nodes: DOMNode[]): string {
 function replace(node: DOMNode): JSX.Element | undefined {
   const el = asElement(node)
   if (!el) return undefined
+  const children = domToReact(el.children as DOMNode[], { replace })
+  if (el.name in tableMap) return tableMap[el.name](children)
 
-  if (el.name in tableMap) {
-    return tableMap[el.name](domToReact(el.children as DOMNode[], { replace }))
+  if (el.name === 'a') {
+    const { href = '', class: className, ...props } = el.attribs
+    if (href.startsWith('/notes/')) return <Link href={href} className={className} {...props}>{children}</Link>
+    return undefined
   }
 
   // inline code: <span data-rehype-pretty-code-figure>
@@ -69,33 +72,20 @@ function replace(node: DOMNode): JSX.Element | undefined {
     return <Mermaid chart={chart} />
   }
 
-  return (
-    <CodeBlock language={lang}>
-      {domToReact(el.children as DOMNode[], { replace })}
-    </CodeBlock>
-  )
+  return <CodeBlock language={lang}>{children}</CodeBlock>
 }
 
 export function NoteRenderer({ html }: { html: string }) {
   return (
-    <div
-      className={cn(
-        // layout
-        "prose prose-lg prose-neutral dark:prose-invert",
-        // sizing
-        "max-w-none",
-        // headings
-        "[&_h1]:text-3xl [&_h1]:font-bold [&_h1]:mt-10 [&_h1]:mb-4",
-        "[&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:mt-8 [&_h2]:mb-3",
-        "[&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mt-6 [&_h3]:mb-2",
-        // paragraph spacing
-        "[&_p]:leading-8 [&_p]:my-6",
-        // lists
-        "[&_li]:my-2",
-        // inline code
-        "prose-code:before:content-none prose-code:after:content-none",
-      )}
-    >
+    <div className={cn(
+      "prose prose-lg prose-neutral dark:prose-invert",
+      "max-w-none",
+      "[&_h1]:mt-10 [&_h1]:mb-4 [&_h1]:text-3xl [&_h1]:font-bold",
+      "[&_h2]:mt-8 [&_h2]:mb-3 [&_h2]:text-2xl [&_h2]:font-semibold",
+      "[&_h3]:mt-6 [&_h3]:mb-2 [&_h3]:text-xl [&_h3]:font-semibold",
+      "[&_p]:my-6 [&_p]:leading-8 [&_li]:my-2",
+      "prose-code:before:content-none prose-code:after:content-none",
+    )}>
       {parse(html, { replace })}
     </div>
   )

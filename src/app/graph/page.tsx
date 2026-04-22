@@ -9,7 +9,7 @@ export default function GraphPage() {
   const [filter, setFilter] = useState<TopicHealth | null>(null)
 
   return (
-    <div className="-m-6 flex h-[calc(100vh-72px)] flex-col p-6">
+    <div className="absolute inset-0 flex flex-col p-6">
       <div className="mb-4">
         <h1 className="text-2xl font-bold">Knowledge Graph</h1>
         <p className="text-sm text-muted-foreground mt-1">

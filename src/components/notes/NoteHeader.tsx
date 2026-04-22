@@ -4,7 +4,7 @@ import type { NoteMeta } from '@/lib/get-note'
 
 export function NoteHeader({ note }: { note: NoteMeta }) {
   return (
-    <div className={cn("flex flex-col", "gap-3 pb-6 border-b border-border")}>
+    <div className={cn("flex flex-col", "gap-3 pb-6 ")}>
       <div className={cn("flex flex-wrap gap-2")}>
         <Badge variant="secondary">{note.subject}</Badge>
         <Badge variant="outline">{note.topic}</Badge>
