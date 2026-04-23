@@ -1,0 +1,33 @@
+export const darkTheme = {
+  primaryColor: '#1e3a5f',
+  primaryTextColor: '#ffffff',
+  primaryBorderColor: '#60a5fa',
+  lineColor: '#94a3b8',
+  secondaryColor: '#3b1f5e',
+  tertiaryColor: '#14432a',
+  background: '#0a0a0a',
+  mainBkg: '#1e3a5f',
+  border1: '#60a5fa',
+  arrowheadColor: '#94a3b8',
+  textColor: '#e2e8f0',
+  titleColor: '#f1f5f9',
+  noteBkgColor: '#1e293b',
+  noteTextColor: '#f1f5f9',
+}
+
+export const lightTheme = {
+  primaryColor: '#eef2ff',
+  primaryTextColor: '#1e1b4b',
+  primaryBorderColor: '#6366f1',
+  lineColor: '#94a3b8',
+  secondaryColor: '#fdf4ff',
+  tertiaryColor: '#ecfdf5',
+  background: '#ffffff',
+  mainBkg: '#eef2ff',
+  border1: '#6366f1',
+  arrowheadColor: '#6366f1',
+  textColor: '#1e293b',
+  titleColor: '#1e1b4b',
+  noteBkgColor: '#eef2ff',
+  noteTextColor: '#1e1b4b',
+}
