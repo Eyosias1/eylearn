@@ -1,6 +1,6 @@
 'use client'
 
-import { NotesSidebar } from '@/components/notes/NotesSidebar'
+import { NotesSidebar } from '@/components/notes/sidebar/NotesSidebar'
 import { useNotesContext } from '@/components/notes/NotesStoreProvider'
 import { groupNotesBySubject } from '@/lib/group-notes'
 

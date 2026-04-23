@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import type { NoteRecord } from '@/types/NoteRecordType'
 import type { NoteChunk } from '@/types/NoteChunk'
-import { NoteRenderer } from './renderer/NoteRenderer'
+import { NoteRenderer } from '@/components/notes/renderer/NoteRenderer'
 import { renderNote } from '@/lib/actions/render-note'
 
 interface NotePageClientProps {
