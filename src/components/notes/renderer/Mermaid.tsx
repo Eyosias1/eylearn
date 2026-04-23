@@ -1,62 +1,30 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useTheme } from 'next-themes'
 import { cn } from '@/lib/utils'
+import { useDocumentTheme } from '@/hooks/useDocumentTheme'
+import { darkTheme, lightTheme } from '@/lib/mermaid-themes'
 
-interface MermaidProps {
-  chart: string
-}
-
-const darkTheme = {
-  primaryColor: '#1e3a5f',
-  primaryTextColor: '#ffffff',
-  primaryBorderColor: '#60a5fa',
-  lineColor: '#94a3b8',
-  secondaryColor: '#3b1f5e',
-  tertiaryColor: '#14432a',
-  background: '#0a0a0a',
-  mainBkg: '#1e3a5f',
-  border1: '#60a5fa',
-  arrowheadColor: '#94a3b8',
-  textColor: '#e2e8f0',
-  titleColor: '#f1f5f9',
-  noteBkgColor: '#1e293b',
-  noteTextColor: '#f1f5f9',
-}
-
-const lightTheme = {
-  primaryColor: '#eef2ff',
-  primaryTextColor: '#1e1b4b',
-  primaryBorderColor: '#6366f1',
-  lineColor: '#94a3b8',
-  secondaryColor: '#fdf4ff',
-  tertiaryColor: '#ecfdf5',
-  background: '#ffffff',
-  mainBkg: '#eef2ff',
-  border1: '#6366f1',
-  arrowheadColor: '#6366f1',
-  textColor: '#1e293b',
-  titleColor: '#1e1b4b',
-  noteBkgColor: '#eef2ff',
-  noteTextColor: '#1e1b4b',
+let mermaidPromise: Promise<typeof import('mermaid')> | null = null
+function getMermaid() {
+  if (!mermaidPromise) mermaidPromise = import('mermaid')
+  return mermaidPromise
 }
 
 const svgCache = new Map<string, string>()
 
-export function Mermaid({ chart }: MermaidProps) {
-  const { resolvedTheme } = useTheme()
+export function Mermaid({ chart }: { chart: string }) {
+  const resolvedTheme = useDocumentTheme()
   const cacheKey = `${resolvedTheme}:${chart}`
   const [svg, setSvg] = useState<string>(() => svgCache.get(cacheKey) ?? '')
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!resolvedTheme) return
     const cached = svgCache.get(cacheKey)
     if (cached) { setSvg(cached); return }
 
     let cancelled = false
-    import('mermaid').then(async ({ default: mermaid }) => {
+    getMermaid().then(async ({ default: mermaid }) => {
       if (cancelled) return
       mermaid.initialize({
         startOnLoad: false,
@@ -89,9 +57,7 @@ export function Mermaid({ chart }: MermaidProps) {
     )
   }
 
-  if (!svg) {
-    return <div className="my-6 h-48 w-full animate-pulse rounded-lg bg-muted" />
-  }
+  if (!svg) return <div className="my-6 h-48 w-full animate-pulse rounded-lg bg-muted" />
 
   return (
     <div
