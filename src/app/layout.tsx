@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
@@ -39,7 +40,9 @@ export default function RootLayout({
         <ThemeProvider>
         <TooltipProvider>
           <SidebarProvider className="h-full">
-            <AppSidebar />
+            <Suspense>
+              <AppSidebar />
+            </Suspense>
             <SidebarInset>
               <div className="flex flex-1 flex-col overflow-hidden">
                 <AppHeader />
