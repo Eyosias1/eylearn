@@ -1,48 +1,47 @@
 'use client'
 
-import { useEffect, useState, useTransition } from 'react'
+import { useOptimistic, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { WhiteboardCard } from '@/components/excalidraw/WhiteboardCard'
-import { createBoard, listBoards } from '@/lib/excalidraw/board-store'
+import { createWhiteboardAction } from '@/lib/actions/whiteboard-actions'
 import type { WhiteboardMeta } from '@/types/whiteboard'
 
-export function WhiteboardGallery() {
-  const [boards, setBoards] = useState<WhiteboardMeta[]>([])
-  const [isLoaded, setIsLoaded] = useState(false)
+interface WhiteboardGalleryProps {
+  initialBoards: WhiteboardMeta[]
+}
+
+type BoardAction =
+  | { type: 'created'; board: WhiteboardMeta }
+  | { type: 'updated'; board: WhiteboardMeta }
+  | { type: 'deleted'; boardId: string }
+
+function updateBoards(boards: WhiteboardMeta[], action: BoardAction) {
+  if (action.type === 'created') return [action.board, ...boards]
+  if (action.type === 'deleted') return boards.filter(board => board.id !== action.boardId)
+  return boards.map(board => board.id === action.board.id ? action.board : board)
+}
+
+export function WhiteboardGallery({ initialBoards }: WhiteboardGalleryProps) {
+  const [boards, updateOptimisticBoards] = useOptimistic(initialBoards, updateBoards)
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
 
-  useEffect(() => {
-    let cancelled = false
-
-    async function loadBoards() {
-      const nextBoards = await listBoards()
-      if (cancelled) return
-      setBoards(nextBoards)
-      setIsLoaded(true)
-    }
-
-    void loadBoards()
-
-    return () => {
-      cancelled = true
-    }
-  }, [])
-
   function handleCreateBoard() {
     startTransition(async () => {
-      const board = await createBoard()
-      setBoards(current => [board, ...current])
+      const board = await createWhiteboardAction()
+      updateOptimisticBoards({ type: 'created', board })
       router.push(`/whiteboard/${board.id}`)
     })
   }
 
   function handleBoardUpdated(updatedBoard: WhiteboardMeta) {
-    setBoards(current =>
-      current.map(board => board.id === updatedBoard.id ? updatedBoard : board)
-    )
+    startTransition(() => updateOptimisticBoards({ type: 'updated', board: updatedBoard }))
+  }
+
+  function handleBoardDeleted(boardId: string) {
+    startTransition(() => updateOptimisticBoards({ type: 'deleted', boardId }))
   }
 
   return (
@@ -61,11 +60,7 @@ export function WhiteboardGallery() {
         </Button>
       </div>
 
-      {!isLoaded ? (
-        <div className="rounded-xl border border-dashed px-6 py-16 text-center text-sm text-muted-foreground">
-          Loading boards...
-        </div>
-      ) : boards.length === 0 ? (
+      {boards.length === 0 ? (
         <div className="rounded-2xl border border-dashed bg-muted/20 px-6 py-16 text-center">
           <div className="mx-auto flex max-w-md flex-col items-center gap-4">
             <div className="rounded-2xl border bg-background p-4 shadow-sm">
@@ -90,6 +85,7 @@ export function WhiteboardGallery() {
               key={board.id}
               board={board}
               onBoardUpdated={handleBoardUpdated}
+              onBoardDeleted={handleBoardDeleted}
             />
           ))}
         </div>

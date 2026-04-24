@@ -1,15 +1,15 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { useEffect, useState, useTransition } from 'react'
-import Link from 'next/link'
+import { useState, useTransition } from 'react'
+import { useRouter } from 'next/navigation'
 import { ChevronLeft, Pencil, Save } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useExcalidrawDrawing } from '@/hooks/useExcalidrawDrawing'
-import { getBoard, updateBoardTitle } from '@/lib/excalidraw/board-store'
-import { localDrawingStore } from '@/lib/excalidraw/local-store'
+import { updateWhiteboardTitleAction } from '@/lib/actions/whiteboard-actions'
+import { supabaseDrawingStore } from '@/lib/excalidraw/supabase-store'
 import type { DrawingStore } from '@/lib/excalidraw/store'
 
 const Excalidraw = dynamic(
@@ -19,6 +19,7 @@ const Excalidraw = dynamic(
 
 interface ExcalidrawCanvasProps {
   drawingId: string
+  initialTitle: string
   store?: DrawingStore
 }
 
@@ -27,10 +28,10 @@ function getStatusLabel(status: ReturnType<typeof useExcalidrawDrawing>['status'
   if (status === 'saved') return 'Saved'
   if (status === 'error') return 'Save failed'
   if (hasUnsavedChanges) return 'Unsaved changes'
-  return 'Local storage'
+  return 'Saved to Supabase'
 }
 
-export function ExcalidrawCanvas({ drawingId, store = localDrawingStore }: ExcalidrawCanvasProps) {
+export function ExcalidrawCanvas({ drawingId, initialTitle, store = supabaseDrawingStore }: ExcalidrawCanvasProps) {
   const {
     errorMessage,
     handleChange,
@@ -40,42 +41,31 @@ export function ExcalidrawCanvas({ drawingId, store = localDrawingStore }: Excal
     saveNow,
     status,
   } = useExcalidrawDrawing({ drawingId, store })
-  const [title, setTitle] = useState('Whiteboard')
-  const [draftTitle, setDraftTitle] = useState('Whiteboard')
+  const router = useRouter()
+  const [title, setTitle] = useState(initialTitle)
+  const [draftTitle, setDraftTitle] = useState(initialTitle)
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [isRenaming, startRenameTransition] = useTransition()
 
-  useEffect(() => {
-    let cancelled = false
-
-    async function loadBoardTitle() {
-      const board = await getBoard(drawingId)
-      if (cancelled) return
-      const nextTitle = board?.title ?? 'Whiteboard'
-      setTitle(nextTitle)
-      setDraftTitle(nextTitle)
-      setIsEditingTitle(false)
+  async function commitTitle() {
+    const updated = await updateWhiteboardTitleAction(drawingId, draftTitle)
+    if (updated) {
+      setTitle(updated.title)
+      setDraftTitle(updated.title)
+    } else {
+      setDraftTitle(title)
     }
 
-    void loadBoardTitle()
-
-    return () => {
-      cancelled = true
-    }
-  }, [drawingId])
+    setIsEditingTitle(false)
+  }
 
   function handleTitleCommit() {
-    startRenameTransition(async () => {
-      const updated = await updateBoardTitle(drawingId, draftTitle)
-      if (updated) {
-        setTitle(updated.title)
-        setDraftTitle(updated.title)
-      } else {
-        setDraftTitle(title)
-      }
+    startRenameTransition(() => { void commitTitle() })
+  }
 
-      setIsEditingTitle(false)
-    })
+  async function handleBackToBoards() {
+    if (isEditingTitle || draftTitle !== title) await commitTitle()
+    router.push('/whiteboard')
   }
 
   return (
@@ -83,11 +73,14 @@ export function ExcalidrawCanvas({ drawingId, store = localDrawingStore }: Excal
       <div className="flex items-center justify-between gap-3 border-b px-4 py-3">
         <div className="min-w-0 space-y-1">
           <div className="flex items-center gap-2">
-            <Button asChild variant="ghost" size="sm" className="-ml-2">
-              <Link href="/whiteboard">
-                <ChevronLeft className="size-4" />
-                Boards
-              </Link>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="-ml-2"
+              onClick={() => { void handleBackToBoards() }}
+            >
+              <ChevronLeft className="size-4" />
+              Boards
             </Button>
           </div>
           {isEditingTitle ? (
@@ -127,7 +120,7 @@ export function ExcalidrawCanvas({ drawingId, store = localDrawingStore }: Excal
             </div>
           )}
           <p className="text-xs text-muted-foreground">
-            Autosaves to local storage now and can swap to a DB-backed store later.
+            Autosaves to your Supabase whiteboard library.
           </p>
         </div>
 

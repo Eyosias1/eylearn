@@ -1,4 +1,5 @@
 import type { ExcalidrawSceneType } from '@/types/ExcalidrawSceneType'
+import type { Tables } from '@/types/database.types'
 
 type SceneElement = ExcalidrawSceneType['elements'][number]
 
@@ -20,9 +21,12 @@ export interface WhiteboardPreview {
   elementCount: number
 }
 
-export interface WhiteboardMeta {
-  id: string
-  title: string
-  updatedAt: string
+export type WhiteboardRow = Tables<'whiteboards'>
+
+export type WhiteboardMeta = Omit<WhiteboardRow, 'preview' | 'scene'> & {
   preview: WhiteboardPreview
+}
+
+export type Whiteboard = WhiteboardMeta & {
+  scene: ExcalidrawSceneType
 }
