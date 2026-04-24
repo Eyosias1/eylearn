@@ -1,6 +1,6 @@
 import { Clock } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { getUpcomingSessions } from "@/lib/mock-data"
+import { getUpcomingSessions } from "@/lib/mock/mock-data"
 import { cn } from "@/lib/utils"
 
 function formatSession(dateStr: string): { day: string; time: string } {

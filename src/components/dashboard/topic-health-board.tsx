@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { getTopics, getSubjectById } from "@/lib/mock-data"
+import { getTopics, getSubjectById } from "@/lib/mock/mock-data"
 import { cn } from "@/lib/utils"
 import type { TopicHealth } from "@/types/study"
 

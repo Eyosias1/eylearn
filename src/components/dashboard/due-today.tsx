@@ -2,7 +2,7 @@ import { Play } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { getDueTopics, getSubjectById } from "@/lib/mock-data"
+import { getDueTopics, getSubjectById } from "@/lib/mock/mock-data"
 import { cn } from "@/lib/utils"
 import type { TopicHealth } from "@/types/study"
 

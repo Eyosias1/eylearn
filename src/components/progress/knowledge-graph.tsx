@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic"
 import { useState, useMemo } from "react"
-import { getGraphNodes } from "@/lib/graph-data"
+import { getGraphNodes } from "@/lib/progress/graph-data"
 import { GraphTooltip } from "@/components/progress/graph-tooltip"
 import { TopicSidePanel } from "@/components/progress/topic-side-panel"
 import type { GraphNode } from "@/types/graph"

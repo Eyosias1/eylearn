@@ -4,7 +4,7 @@ import {
   getTodaySchedule,
   getActiveSubjects,
   getConsistencyData,
-} from "@/lib/dashboard"
+} from "@/lib/dashboard/dashboard"
 import { DailyTargets } from "@/components/dashboard/daily-targets"
 import { ConsistencyChart } from "@/components/dashboard/consistency-chart"
 import { NextSessionCard } from "@/components/dashboard/next-session-card"

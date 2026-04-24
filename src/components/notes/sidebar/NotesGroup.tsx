@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import type { NoteGroup } from '@/lib/group-notes'
+import type { NoteGroup } from '@/lib/notes/group-notes'
 
 interface NotesGroupProps {
   group: NoteGroup

@@ -1,7 +1,7 @@
 import type { Plugin } from 'unified'
 import type { Root, Element, Text } from 'hast'
 import { visit } from 'unist-util-visit'
-import { renderSmilesToSvg } from './smiles-server'
+import { renderSmilesToSvg } from '@/lib/markdown/smiles-server'
 
 function extractText(nodes: Array<Element | Text | { type: string }>): string {
   return nodes.map(n => {

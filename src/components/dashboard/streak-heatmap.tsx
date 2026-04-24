@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { getStudyHistory } from "@/lib/mock-data"
+import { getStudyHistory } from "@/lib/mock/mock-data"
 import { StreakYearGrid } from "@/components/dashboard/streak-year-grid"
 import { cn } from "@/lib/utils"
 

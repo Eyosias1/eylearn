@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { X } from "lucide-react"
-import { graphEdges, getGraphNodes } from "@/lib/graph-data"
+import { graphEdges, getGraphNodes } from "@/lib/progress/graph-data"
 import { cn } from "@/lib/utils"
 import type { GraphNode } from "@/types/graph"
 import type { TopicHealth } from "@/types/study"

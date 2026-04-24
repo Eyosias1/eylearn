@@ -1,5 +1,5 @@
-import { getGraphNodes } from "@/lib/graph-data"
-import { getUserStats } from "@/lib/mock-data"
+import { getGraphNodes } from "@/lib/progress/graph-data"
+import { getUserStats } from "@/lib/mock/mock-data"
 import type { TopicHealth } from "@/types/study"
 
 interface Props {

@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import { useSigma, useLoadGraph, useSetSettings } from "@react-sigma/core"
 import ForceSupervisor from "graphology-layout-force/worker"
-import { buildGraph } from "@/lib/build-graph"
+import { buildGraph } from "@/lib/progress/build-graph"
 import { useGraphDrag } from "@/hooks/useGraphDrag"
 import type { GraphNode, GraphNodeAttributes } from "@/types/graph"
 import type { TopicHealth } from "@/types/study"

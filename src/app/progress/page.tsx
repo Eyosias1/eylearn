@@ -1,5 +1,5 @@
 import { Boxes, ChartSpline, CalendarDays, ListTodo, BarChart3 } from "lucide-react"
-import { getDueCards, getLeitnerCards, getRetroTopics, getProspectiveDays, getSessionHistory, getAnalytics } from "@/lib/progress"
+import { getDueCards, getLeitnerCards, getRetroTopics, getProspectiveDays, getSessionHistory, getAnalytics } from "@/lib/progress/progress"
 import { DueTodayHeaderClient, DueTodayTableClient } from "@/components/progress/progress-interactive"
 import { LeitnerBoard } from "@/components/progress/leitner-board"
 import { RetrospectiveGrid } from "@/components/progress/retrospective-grid"

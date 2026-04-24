@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useDocumentTheme } from '@/hooks/useDocumentTheme'
-import { darkTheme, lightTheme } from '@/lib/mermaid-themes'
+import { darkTheme, lightTheme } from '@/lib/mermaid/mermaid-themes'
 
 let mermaidPromise: Promise<typeof import('mermaid')> | null = null
 function getMermaid() {

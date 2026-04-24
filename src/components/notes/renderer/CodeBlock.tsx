@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { ChevronDown, ChevronUp, Check, Copy } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { getLanguageIcon } from '@/lib/language-icon'
+import { getLanguageIcon } from '@/lib/language/language-icon'
 
 const COLLAPSE_THRESHOLD = 20
 const LINE_HEIGHT_PX = 24

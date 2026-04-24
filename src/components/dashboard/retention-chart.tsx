@@ -2,7 +2,7 @@
 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, ReferenceLine } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { getRetentionData } from "@/lib/mock-data"
+import { getRetentionData } from "@/lib/mock/mock-data"
 
 const COLORS = ["#6366f1", "#f59e0b", "#ef4444"]
 

@@ -1,4 +1,4 @@
-import { getTopics, getSubjectById } from "./mock-data"
+import { getTopics, getSubjectById } from "@/lib/mock/mock-data"
 import type { GraphNode, GraphEdge, SubjectCluster } from "@/types/graph"
 
 export function getGraphNodes(): GraphNode[] {

@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { NotesGroup } from '@/components/notes/sidebar/NotesGroup'
-import type { NoteGroup } from '@/lib/group-notes'
+import type { NoteGroup } from '@/lib/notes/group-notes'
 
 interface NotesSidebarProps {
   groups: NoteGroup[]

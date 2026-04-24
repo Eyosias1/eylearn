@@ -1,6 +1,6 @@
 import { Flame, BookOpen, CalendarClock, Brain, Clock } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
-import { getUserStats } from "@/lib/mock-data"
+import { getUserStats } from "@/lib/mock/mock-data"
 import { cn } from "@/lib/utils"
 
 function daysUntil(dateStr: string): number {

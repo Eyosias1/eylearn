@@ -1,5 +1,5 @@
 import Graph from "graphology"
-import { getGraphNodes, graphEdges, subjectClusters } from "./graph-data"
+import { getGraphNodes, graphEdges, subjectClusters } from "@/lib/progress/graph-data"
 import type { TopicHealth } from "@/types/study"
 
 const COLORS: Record<TopicHealth, string> = {
