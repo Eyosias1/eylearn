@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/layout/app-sidebar";
-import { AppHeader } from "@/components/layout/app-header";
-import { ThemeProvider } from "@/components/providers/theme-provider";
+import { Providers } from "@/providers";
+import { cn } from "@/lib/utils";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -31,29 +27,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${jakarta.variable} ${mono.variable} h-full antialiased`}
-      suppressHydrationWarning
-    >
-      <body className="h-screen overflow-hidden">
-        <ThemeProvider>
-        <TooltipProvider>
-          <SidebarProvider className="h-full">
-            <Suspense>
-              <AppSidebar />
-            </Suspense>
-            <SidebarInset>
-              <div className="flex flex-1 flex-col overflow-hidden">
-                <AppHeader />
-                <main className="relative flex-1 overflow-auto p-6">
-                  {children}
-                </main>
-              </div>
-            </SidebarInset>
-          </SidebarProvider>
-        </TooltipProvider>
-        </ThemeProvider>
+      <html
+        lang="en"
+        className={cn(jakarta.variable, mono.variable, "h-full antialiased")}
+        suppressHydrationWarning
+      >
+      <body className={cn("min-h-svh")}>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
