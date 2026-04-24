@@ -1,4 +1,4 @@
-import type { NoteMeta } from './get-note'
+import type { NoteMeta } from '@/types/NoteRecordType'
 
 export interface NoteGroup {
   subject: string

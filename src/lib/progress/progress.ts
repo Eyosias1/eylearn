@@ -126,9 +126,11 @@ export async function getAnalytics(): Promise<AnalyticsData> {
     day: i,
     retention: Math.round(100 * Math.exp(-0.1 * i)),
   }))
+  // fixed noise per day so the curve looks organic but is deterministic
+  const noise = [0.12,0.08,0.19,0.05,0.15,0.11,0.17,0.03,0.14,0.09,0.18,0.06,0.13,0.16,0.07,0.10,0.04,0.12,0.19,0.08,0.15,0.11,0.05,0.17,0.09,0.14,0.03,0.18,0.06,0.13,0.07]
   const actual = theoretical.map(({ day, retention }) => ({
     day,
-    retention: Math.min(100, Math.round(retention * (1.1 + Math.random() * 0.2))),
+    retention: Math.min(100, Math.round(retention * (1.1 + noise[day]))),
   }))
 
   return {
