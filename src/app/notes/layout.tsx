@@ -1,19 +1,25 @@
-import { getAllNotes } from '@/lib/get-note'
-import { groupNotesBySubject } from '@/lib/group-notes'
-import { NotesSidebar } from '@/components/notes/NotesSidebar'
+import { Suspense } from 'react'
+import 'katex/dist/katex.min.css'
+import { getAllNotes } from '@/lib/notes/queries'
+import { NotesSidebarShell } from '@/components/notes/sidebar/NotesSidebarShell'
+import { NotesStoreProvider } from '@/components/notes/NotesStoreProvider'
 import { cn } from '@/lib/utils'
 
-export default function NotesLayout({ children }: { children: React.ReactNode }) {
-  const groups = groupNotesBySubject(getAllNotes())
+export default async function NotesLayout({ children }: { children: React.ReactNode }) {
+  const notes = await getAllNotes()
 
   return (
     <div className={cn(
       // layout
       "absolute flex",
-      // sizing — cover main's full border-box, escaping its p-6 padding
+      // sizing
       "inset-0",
     )}>
-      <NotesSidebar groups={groups} />
+      <Suspense>
+        <NotesStoreProvider initialNotes={notes}>
+          <NotesSidebarShell />
+        </NotesStoreProvider>
+      </Suspense>
       <div className={cn(
         // layout
         "flex-1 min-w-0",
