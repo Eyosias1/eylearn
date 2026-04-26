@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { ChevronRight } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import type { NoteGroup } from '@/lib/notes/group-notes'
 
@@ -16,11 +17,14 @@ export function NotesGroup({ group, activeSlug }: NotesGroupProps) {
 
   return (
     <div>
-      <button
+      <Button
+        type="button"
+        variant="ghost"
+        size="xs"
         onClick={() => setOpen(o => !o)}
         className={cn(
           // layout
-          "flex items-center gap-1.5 w-full",
+          "w-full justify-start gap-1.5",
           // spacing
           "px-3 py-1.5",
           // typography
@@ -28,12 +32,12 @@ export function NotesGroup({ group, activeSlug }: NotesGroupProps) {
           // colors
           "text-muted-foreground",
           // hover
-          "hover:text-foreground transition-colors",
+          "hover:text-foreground",
         )}
       >
         <ChevronRight className={cn("size-3.5 transition-transform", open && "rotate-90")} />
         {group.subject}
-      </button>
+      </Button>
 
       {open && (
         <ul>

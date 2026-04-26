@@ -9,6 +9,8 @@ export interface NoteMeta {
   date: string
   subjectSlug?: string
   path?: string
+  folderId?: string | null
+  emoji?: string | null
 }
 
 export interface NoteRecord extends NoteMeta {

@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { NoteCard } from '@/components/notes/list/NoteCard'
 import { NewNoteDialog } from '@/components/notes/list/NewNoteDialog'
-import { useNotesContext } from '@/components/notes/NotesStoreProvider'
+import { useNotesContext } from '@/providers/notes-store-provider'
 import type { NoteRecord } from '@/types/NoteRecordType'
 
 export function NotesShell() {
@@ -16,8 +16,7 @@ export function NotesShell() {
     router.push(`/notes/${note.slug}`)
   }
 
-  async function handleDelete(slug: string, title: string) {
-    if (!window.confirm(`Delete "${title}"?`)) return
+  async function handleDelete(slug: string) {
     await removeNote(slug)
   }
 

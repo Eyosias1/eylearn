@@ -17,6 +17,7 @@ export type Database = {
       note_folders: {
         Row: {
           created_at: string
+          emoji: string | null
           id: string
           name: string
           parent_id: string | null
@@ -25,6 +26,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          emoji?: string | null
           id?: string
           name: string
           parent_id?: string | null
@@ -33,6 +35,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          emoji?: string | null
           id?: string
           name?: string
           parent_id?: string | null
@@ -55,6 +58,7 @@ export type Database = {
           created_at: string | null
           date: string
           difficulty: string
+          emoji: string | null
           folder_id: string | null
           path: string | null
           rendered_at: string | null
@@ -73,6 +77,7 @@ export type Database = {
           created_at?: string | null
           date: string
           difficulty: string
+          emoji?: string | null
           folder_id?: string | null
           path?: string | null
           rendered_at?: string | null
@@ -91,6 +96,7 @@ export type Database = {
           created_at?: string | null
           date?: string
           difficulty?: string
+          emoji?: string | null
           folder_id?: string | null
           path?: string | null
           rendered_at?: string | null
