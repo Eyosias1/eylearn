@@ -2,6 +2,7 @@ import type {
   DueCard,
   LeitnerCard,
   RetroTopic,
+  RetroSubjectGroup,
   ProspectiveDay,
   SessionRecord,
   AnalyticsData,
@@ -79,6 +80,47 @@ export async function getRetroTopics(): Promise<RetroTopic[]> {
     ...t,
     sessions: dates.map((date, j) => ({ date, rating: patterns[i][j] ?? null })),
   }))
+}
+
+function computeHealthScore(topics: RetroTopic[]): number {
+  const ratingWeight = { strong: 100, partial: 50, poor: 0 }
+  let total = 0, count = 0
+  for (const t of topics) {
+    for (const s of t.sessions) {
+      if (s.rating !== null) {
+        total += ratingWeight[s.rating]
+        count++
+      }
+    }
+  }
+  return count === 0 ? 0 : Math.round(total / count)
+}
+
+function lastStudiedDate(topics: RetroTopic[]): string {
+  let latest = ""
+  for (const t of topics) {
+    for (const s of t.sessions) {
+      if (s.rating !== null && s.date > latest) latest = s.date
+    }
+  }
+  return latest
+}
+
+export async function getRetroSubjectGroups(): Promise<RetroSubjectGroup[]> {
+  const topics = await getRetroTopics()
+  const map = new Map<string, RetroTopic[]>()
+  for (const t of topics) {
+    if (!map.has(t.subject)) map.set(t.subject, [])
+    map.get(t.subject)!.push(t)
+  }
+  const groups: RetroSubjectGroup[] = Array.from(map.entries()).map(([subject, subjectTopics]) => ({
+    subject,
+    topics: subjectTopics,
+    healthScore: computeHealthScore(subjectTopics),
+    lastStudied: lastStudiedDate(subjectTopics),
+  }))
+  groups.sort((a, b) => b.lastStudied.localeCompare(a.lastStudied))
+  return groups
 }
 
 export async function getProspectiveDays(): Promise<ProspectiveDay[]> {

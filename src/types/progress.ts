@@ -27,6 +27,14 @@ export type RetroTopic = {
   }[]
 }
 
+export type RetroSubjectGroup = {
+  subject: string
+  topics: RetroTopic[]
+  // 0–100 score: strong=100, partial=50, poor=0, null ignored
+  healthScore: number
+  lastStudied: string
+}
+
 export type ProspectiveDay = {
   date: string
   topics: {
