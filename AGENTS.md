@@ -10,6 +10,10 @@ Always use `bun` for installing packages, not `npm` or `yarn`.
 - Dev dependency: `bun add -d <package>`
 - Run scripts: `bun run <script>`
 
+# Repeated Commands
+- Check `COMMANDS.md` for common project workflows before running repeated commands.
+- Add useful recurring workflows to `COMMANDS.md` when they become part of the project process.
+
 # Code Structure & Separation of Concerns
 
 ## File Length
