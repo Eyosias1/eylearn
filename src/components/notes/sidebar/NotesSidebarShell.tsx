@@ -1,15 +1,17 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { NotesSidebar } from '@/components/notes/sidebar/NotesSidebar'
 import { useNotesContext } from '@/providers/notes-store-provider'
 import { buildNoteFolderTree } from '@/lib/notes/folder-tree'
 import { slugify } from '@/lib/slugify'
+import { updateNoteAction } from '@/lib/actions/note-actions'
 
 const today = () => new Date().toISOString().split('T')[0]
 
 export function NotesSidebarShell() {
-  const router = useRouter()
+  const router   = useRouter()
+  const pathname = usePathname()
   const store = useNotesContext()
   const { folders, notes, createFolder, removeFolder, moveFolder, updateFolder, updateFolderEmoji, createNote, removeNote, updateNote } = store
   const tree = buildNoteFolderTree(folders, notes)
@@ -43,7 +45,10 @@ export function NotesSidebarShell() {
   }
 
   async function handleRenameNote(slug: string, title: string) {
-    await updateNote(slug, { title })
+    const newSlug = `${slugify(title)}-${Date.now().toString(36)}`
+    await updateNoteAction(slug, { title, slug: newSlug })
+    if (pathname === `/notes/${slug}`) router.push(`/notes/${newSlug}`)
+    else router.refresh()
   }
 
   async function handleRenameFolder(id: string, name: string) {

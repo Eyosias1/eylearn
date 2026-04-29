@@ -21,7 +21,7 @@ export function Mermaid({ chart }: { chart: string }) {
 
   useEffect(() => {
     const cached = svgCache.get(cacheKey)
-    if (cached) { setSvg(cached); return }
+    if (cached) { queueMicrotask(() => setSvg(cached)); return }
 
     let cancelled = false
     getMermaid().then(async ({ default: mermaid }) => {

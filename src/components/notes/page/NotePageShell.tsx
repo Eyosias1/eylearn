@@ -21,6 +21,17 @@ export function NotePageShell({ serverNote, children }: NotePageShellProps) {
   const [postSaveChunks, setPostSaveChunks] = useState<NoteChunk[] | null>(null)
   const [status, setStatus] = useState<NoteSaveState>('idle')
 
+  async function handleAutosave(content: string) {
+    setStatus('saving')
+    try {
+      await updateNoteAction(note.slug, { content })
+      setNote(prev => ({ ...prev, content }))
+      setStatus('saved')
+    } catch {
+      setStatus('error')
+    }
+  }
+
   async function handleSave(content: string) {
     setStatus('saving')
     try {
@@ -42,7 +53,7 @@ export function NotePageShell({ serverNote, children }: NotePageShellProps) {
       serverContent={children}
       postSaveChunks={postSaveChunks}
       saveState={status}
-      onAutosave={(content) => updateNoteAction(note.slug, { content })}
+      onAutosave={handleAutosave}
       onSave={handleSave}
     >
       <NotePageHeader note={note} />

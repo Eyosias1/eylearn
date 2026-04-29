@@ -32,12 +32,11 @@ export function NoteRenderer({ chunks, html }: NoteRendererProps) {
       ref={ref}
       className={cn(
         "prose prose-lg prose-neutral dark:prose-invert",
-        "max-w-none",
+        "max-w-none prose-code:before:content-none prose-code:after:content-none",
         "[&_h1]:mt-10 [&_h1]:mb-4 [&_h1]:text-3xl [&_h1]:font-bold",
         "[&_h2]:mt-8 [&_h2]:mb-3 [&_h2]:text-2xl [&_h2]:font-semibold",
         "[&_h3]:mt-6 [&_h3]:mb-2 [&_h3]:text-xl [&_h3]:font-semibold",
         "[&_p]:my-6 [&_p]:leading-8 [&_li]:my-2",
-        "prose-code:before:content-none prose-code:after:content-none",
         "[&_span[data-rehype-pretty-code-figure]]:rounded [&_span[data-rehype-pretty-code-figure]]:px-1.5 [&_span[data-rehype-pretty-code-figure]]:py-0.5",
         "[&_span[data-rehype-pretty-code-figure]]:text-sm [&_span[data-rehype-pretty-code-figure]]:font-semibold",
         "[&_span[data-rehype-pretty-code-figure]]:[font-family:var(--font-mono)]",
@@ -45,9 +44,7 @@ export function NoteRenderer({ chunks, html }: NoteRendererProps) {
       )}
     >
       {resolvedChunks.map((chunk, index) => {
-        if (chunk.type === 'html') {
-          return <div key={index} dangerouslySetInnerHTML={{ __html: chunk.html }} />
-        }
+        if (chunk.type === 'html') return <div key={index} dangerouslySetInnerHTML={{ __html: chunk.html }} />
         if (chunk.type === 'table') {
           return (
             <div key={index} className="not-prose my-6 overflow-hidden rounded-xl border border-border">
@@ -94,9 +91,7 @@ export function NoteRenderer({ chunks, html }: NoteRendererProps) {
         if (chunk.type === 'code') {
           return <CodeBlock key={index} language={chunk.language} preHtml={chunk.preHtml} />
         }
-        if (chunk.type === 'mermaid') {
-          return <Mermaid key={index} chart={chunk.chart} />
-        }
+        if (chunk.type === 'mermaid') return <Mermaid key={index} chart={chunk.chart} />
         return <Smiles key={index} smiles={chunk.smiles} />
       })}
     </div>

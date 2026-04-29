@@ -1,6 +1,6 @@
 export interface NoteTableCell {
   html: string
-  align?: string
+  align?: 'center' | 'right' | 'left' | 'justify' | 'char'
   colSpan?: number
   rowSpan?: number
 }

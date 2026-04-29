@@ -1,10 +1,9 @@
 'use client'
 
-import Link from 'next/link'
+import { useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { NotesSidebarHeader } from '@/components/notes/sidebar/NotesSidebarHeader'
 import { CollapsedNotesNav } from '@/components/notes/sidebar/CollapsedNotesNav'
 import { useNotesSidebarPanel } from '@/components/notes/sidebar/notes-sidebar-panel-context'
 import { NotesSidebarNav } from '@/components/notes/sidebar/NotesSidebarNav'
@@ -28,55 +27,46 @@ interface NotesSidebarProps {
 
 export function NotesSidebar(props: NotesSidebarProps) {
   const { roots, unfiled } = props
-  const pathname = usePathname()
+  const pathname   = usePathname()
   const activeSlug = pathname.startsWith('/notes/') ? pathname.slice(7) : ''
   const { open, setOpen } = useNotesSidebarPanel()
 
+  const [creatingRootFolder, setCreatingRootFolder] = useState(false)
+  const [creatingRootNote,   setCreatingRootNote]   = useState(false)
+  const [collapseSignal,     setCollapseSignal]     = useState(0)
+
   return (
     <aside className={cn(
+      // layout
       "flex flex-col shrink-0",
+      // sizing
       "h-full",
       open ? "w-full" : "w-10",
+      // colors
       "bg-sidebar",
+      // border
       "border-r border-border",
+      // animation
       "overflow-hidden transition-[width] duration-200 ease-linear",
     )}>
-      <div className={cn(
-        "flex items-center shrink-0",
-        open ? "justify-between px-4" : "justify-center px-1",
-        "h-(--header-height)",
-        "border-b border-border",
-      )}>
-        {open && (
-          <>
-            <span className="text-sm font-semibold">Notes</span>
-            <Link
-              href="/notes"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              All notes
-            </Link>
-          </>
-        )}
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon-xs"
-          onClick={() => setOpen(o => !o)}
-          className={cn(
-            "text-muted-foreground",
-            open && "ml-2",
-          )}
-        >
-          {open
-            ? <ChevronLeft className="size-4" />
-            : <ChevronRight className="size-4" />
-          }
-        </Button>
-      </div>
+      <NotesSidebarHeader
+        open={open}
+        onToggle={() => setOpen(o => !o)}
+        onCreateFolder={() => setCreatingRootFolder(true)}
+        onCreateNote={() => setCreatingRootNote(true)}
+        onCollapseAll={() => setCollapseSignal(v => v + 1)}
+      />
 
       {open && (
-        <NotesSidebarNav {...props} activeSlug={activeSlug} />
+        <NotesSidebarNav
+          {...props}
+          activeSlug={activeSlug}
+          creatingRootFolder={creatingRootFolder}
+          setCreatingRootFolder={setCreatingRootFolder}
+          creatingRootNote={creatingRootNote}
+          setCreatingRootNote={setCreatingRootNote}
+          collapseSignal={collapseSignal}
+        />
       )}
       {!open && (
         <CollapsedNotesNav
@@ -86,7 +76,6 @@ export function NotesSidebar(props: NotesSidebarProps) {
           onOpen={() => setOpen(true)}
         />
       )}
-
     </aside>
   )
 }

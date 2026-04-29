@@ -1,4 +1,5 @@
 export interface NoteMeta {
+  id?: string
   slug: string
   title: string
   subject: string

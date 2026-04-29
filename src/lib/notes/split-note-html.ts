@@ -7,29 +7,30 @@ function serializeNode(node: { nodeType?: number; outerHTML?: string; textConten
 }
 
 function serializeChildren(element: Element): string {
-  return Array.from(element.childNodes)
-    .map(child => serializeNode(child as { nodeType?: number; outerHTML?: string; textContent?: string }))
-    .join('')
+  return Array.from(element.childNodes).map(child => serializeNode(child as { nodeType?: number; outerHTML?: string; textContent?: string })).join('')
 }
 
 function parseTableCell(cell: Element): NoteTableCell {
   const colSpan = cell.getAttribute('colspan')
   const rowSpan = cell.getAttribute('rowspan')
+  const align = parseAlign(cell.getAttribute('align'))
   return {
     html: serializeChildren(cell),
-    align: cell.getAttribute('align') ?? undefined,
+    align,
     colSpan: colSpan ? Number(colSpan) : undefined,
     rowSpan: rowSpan ? Number(rowSpan) : undefined,
   }
 }
 
+function parseAlign(value: string | null): NoteTableCell['align'] {
+  if (value === 'center' || value === 'right' || value === 'left') return value
+  if (value === 'justify' || value === 'char') return value
+  return undefined
+}
+
 function parseTableRows(section: Element | null): NoteTableRow[] {
   if (!section) return []
-  return Array.from(section.querySelectorAll(':scope > tr')).map(row => ({
-    cells: Array.from(row.children)
-      .filter(cell => ['th', 'td'].includes(cell.tagName.toLowerCase()))
-      .map(cell => parseTableCell(cell as Element)),
-  }))
+  return Array.from(section.querySelectorAll(':scope > tr')).map(parseDirectRow)
 }
 
 function extractSpecialChunk(node: Element): NoteChunk | null {
@@ -42,21 +43,8 @@ function extractSpecialChunk(node: Element): NoteChunk | null {
       cell => cell.tagName.toLowerCase() === 'th',
     )
 
-    const headRows = explicitHead
-      ? parseTableRows(explicitHead)
-      : inferredHeadRows
-        ? [{
-            cells: Array.from(directRows[0].children).map(cell => parseTableCell(cell as Element)),
-          }]
-        : []
-
-    const bodyRows = explicitBody
-      ? parseTableRows(explicitBody)
-      : directRows.slice(inferredHeadRows ? 1 : 0).map(row => ({
-          cells: Array.from(row.children)
-            .filter(cell => ['th', 'td'].includes(cell.tagName.toLowerCase()))
-            .map(cell => parseTableCell(cell as Element)),
-        }))
+    const headRows = explicitHead ? parseTableRows(explicitHead) : inferredHeadRows ? [parseDirectRow(directRows[0])] : []
+    const bodyRows = explicitBody ? parseTableRows(explicitBody) : directRows.slice(inferredHeadRows ? 1 : 0).map(parseDirectRow)
 
     return { type: 'table', caption, headRows, bodyRows }
   }
@@ -73,6 +61,11 @@ function extractSpecialChunk(node: Element): NoteChunk | null {
   if (language === 'smiles') return { type: 'smiles', smiles: text }
   if (language === 'mermaid') return { type: 'mermaid', chart: text }
   return { type: 'code', language, preHtml: pre.outerHTML }
+}
+
+function parseDirectRow(row: Element): NoteTableRow {
+  const cells = Array.from(row.children).filter(cell => ['th', 'td'].includes(cell.tagName.toLowerCase()))
+  return { cells: cells.map(cell => parseTableCell(cell as Element)) }
 }
 
 export function splitNoteHtml(html: string): NoteChunk[] {

@@ -1,13 +1,14 @@
 'use client'
 
 import { useEffect, useRef, useState, useTransition } from 'react'
-import { Eye, Pencil, Save } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
 import type { NoteRecord } from '@/types/NoteRecordType'
 import type { NoteChunk } from '@/types/NoteChunk'
 import { NoteRenderer } from '@/components/notes/renderer/NoteRenderer'
+import { NoteMetricsBadge } from '@/components/notes/page/NoteMetricsBadge'
+import { NotePageActions } from '@/components/notes/page/NotePageActions'
 import { renderNote } from '@/lib/actions/render-note'
+import { useRegisterNoteAssistantContext } from '@/hooks/useRegisterNoteAssistantContext'
 
 interface NotePageClientProps {
   note: NoteRecord
@@ -29,6 +30,8 @@ export function NotePageClient({ note, serverContent, postSaveChunks, saveState,
   const dirty = content !== note.content
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const autosaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useRegisterNoteAssistantContext(note, content, dirty)
 
   useEffect(() => {
     if (!dirty) return
@@ -66,17 +69,7 @@ export function NotePageClient({ note, serverContent, postSaveChunks, saveState,
     <>
       <div className="relative">
         {children}
-        <div className="absolute top-0 right-0 flex items-center gap-1">
-          {statusLabel && <span className="self-center text-xs text-muted-foreground">{statusLabel}</span>}
-          {dirty && (
-            <Button variant="ghost" size="icon-sm" onClick={handleSave} disabled={isPending} title="Save changes" className="text-muted-foreground">
-              <Save className="size-5" />
-            </Button>
-          )}
-          <Button variant="ghost" size="lg" onClick={handleTogglePreview} title={raw ? 'Switch to preview' : 'Edit raw markdown'} className="text-muted-foreground">
-            {raw ? <Eye className="size-5" /> : <Pencil className="size-5" />}
-          </Button>
-        </div>
+        <NotePageActions dirty={dirty} isPending={isPending} raw={raw} statusLabel={statusLabel} onSave={handleSave} onTogglePreview={handleTogglePreview} />
       </div>
 
       <div className="mt-10">
@@ -88,6 +81,16 @@ export function NotePageClient({ note, serverContent, postSaveChunks, saveState,
               ? <NoteRenderer chunks={postSaveChunks} />
               : serverContent
         }
+      </div>
+      <div
+        className={cn(
+          // layout
+          "sticky bottom-2 z-30 flex translate-x-3 translate-y-2 justify-end",
+          // spacing
+          "mt-6",
+        )}
+      >
+        <NoteMetricsBadge content={content} />
       </div>
     </>
   )

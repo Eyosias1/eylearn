@@ -5,6 +5,8 @@ import { cn } from '@/lib/utils'
 import { NoteCard } from '@/components/notes/list/NoteCard'
 import { NewNoteDialog } from '@/components/notes/list/NewNoteDialog'
 import { useNotesContext } from '@/providers/notes-store-provider'
+import { updateNoteAction } from '@/lib/actions/note-actions'
+import { slugify } from '@/lib/slugify'
 import type { NoteRecord } from '@/types/NoteRecordType'
 
 export function NotesShell() {
@@ -21,7 +23,9 @@ export function NotesShell() {
   }
 
   async function handleRename(slug: string, title: string) {
-    await updateNote(slug, { title })
+    const newSlug = `${slugify(title)}-${Date.now().toString(36)}`
+    await updateNoteAction(slug, { title, slug: newSlug })
+    router.refresh()
   }
 
   return (

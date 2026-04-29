@@ -1,5 +1,9 @@
+import 'server-only'
 import { cacheTag } from 'next/cache'
 import { createAdminClient } from '@/lib/supabase/admin'
+// Admin client is intentional here: Next.js `'use cache'` forbids calling cookies() inside
+// cached functions, so the server client cannot be used. Notes are treated as global/shared
+// content with no per-user RLS filtering. Revisit if notes become per-user.
 import { splitNoteHtml } from '@/lib/notes/split-note-html'
 import type { NoteMeta, NoteRecord } from '@/types/NoteRecordType'
 import type { NoteFolder } from '@/types/NoteFolderType'
@@ -7,6 +11,7 @@ import type { NoteChunk } from '@/types/NoteChunk'
 
 function toNoteMeta(row: Record<string, unknown>): NoteMeta {
   return {
+    id:   (row.id as string | null) ?? undefined,
     slug: row.slug as string,
     title: row.title as string,
     subject: row.subject as string,
@@ -40,7 +45,7 @@ export async function getAllNotes(): Promise<NoteMeta[]> {
   const db = createAdminClient()
   const { data, error } = await db
     .from('notes')
-    .select('slug, title, subject, topic, tags, status, difficulty, date, subject_slug, path, folder_id, emoji')
+    .select('id, slug, title, subject, topic, tags, status, difficulty, date, subject_slug, path, folder_id, emoji')
     .order('date', { ascending: false })
   if (error) throw new Error(error.message)
   return (data ?? []).map(toNoteMeta)

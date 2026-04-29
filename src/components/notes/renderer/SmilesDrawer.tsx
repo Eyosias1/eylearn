@@ -31,7 +31,7 @@ export function SmilesDrawer({ smiles }: SmilesDrawerProps) {
   useEffect(() => {
     if (!resolvedTheme || !smiles) return
     const cached = svgCache.get(cacheKey)
-    if (cached) { setSvg(cached); return }
+    if (cached) { queueMicrotask(() => setSvg(cached)); return }
 
     let cancelled = false
     getSmilesDrawer().then(({ default: SD }) => {

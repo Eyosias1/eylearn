@@ -90,7 +90,7 @@ export function NoteSidebarLink(props: NoteSidebarLinkProps) {
           <span className="truncate">{note.title}</span>
         </Link>
       )}
-      <NoteSidebarActions title={note.title} editing={editing} onEdit={() => setEditing(true)} onDelete={() => onDeleteNote(note.slug)} />
+      <NoteSidebarActions title={note.title} slug={note.slug} editing={editing} onEdit={() => setEditing(true)} onDelete={() => onDeleteNote(note.slug)} />
     </li>
   )
 }

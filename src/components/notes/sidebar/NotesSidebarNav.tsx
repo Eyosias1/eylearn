@@ -5,7 +5,6 @@ import { NotesFolder } from '@/components/notes/sidebar/NotesFolder'
 import { NoteSidebarLink } from '@/components/notes/sidebar/NoteSidebarLink'
 import { NewFolderInput } from '@/components/notes/sidebar/NewFolderInput'
 import { NewNoteInput } from '@/components/notes/sidebar/NewNoteInput'
-import { NotesSidebarToolbar } from '@/components/notes/sidebar/NotesSidebarToolbar'
 import type { NoteMeta } from '@/types/NoteRecordType'
 import type { NoteFolderNode } from '@/lib/notes/folder-tree'
 
@@ -13,6 +12,11 @@ interface NotesSidebarNavProps {
   roots: NoteFolderNode[]
   unfiled: NoteMeta[]
   activeSlug: string
+  creatingRootFolder: boolean
+  setCreatingRootFolder: (v: boolean) => void
+  creatingRootNote: boolean
+  setCreatingRootNote: (v: boolean) => void
+  collapseSignal: number
   onCreateFolder: (name: string, parentId: string | null) => Promise<void>
   onCreateNote: (title: string, folderId: string | null) => Promise<void>
   onDeleteFolder: (id: string) => Promise<void>
@@ -26,19 +30,11 @@ interface NotesSidebarNavProps {
 }
 
 export function NotesSidebarNav(props: NotesSidebarNavProps) {
-  const { roots, unfiled, activeSlug, onCreateFolder, onCreateNote, onDeleteNote, onRenameNote, onChangeNoteEmoji, onMoveNote, onMoveFolder } = props
-  const [creatingRootFolder, setCreatingRootFolder] = useState(false)
-  const [creatingRootNote, setCreatingRootNote] = useState(false)
+  const { roots, unfiled, activeSlug, creatingRootFolder, setCreatingRootFolder, creatingRootNote, setCreatingRootNote, collapseSignal, onCreateFolder, onCreateNote, onDeleteNote, onRenameNote, onChangeNoteEmoji, onMoveNote, onMoveFolder } = props
   const [dragOverRoot, setDragOverRoot] = useState(false)
-  const [collapseSignal, setCollapseSignal] = useState(0)
 
   return (
     <nav className="flex-1 overflow-y-auto">
-      <NotesSidebarToolbar
-        onCreateFolder={() => setCreatingRootFolder(true)}
-        onCreateNote={() => setCreatingRootNote(true)}
-        onCollapseAll={() => setCollapseSignal(value => value + 1)}
-      />
       <div className="space-y-2 px-2 py-4">
       {creatingRootFolder && (
         <NewFolderInput

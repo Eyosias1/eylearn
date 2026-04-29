@@ -17,8 +17,9 @@ export function Smiles({ smiles }: { smiles: string }) {
 
   useEffect(() => {
     let cancelled = false
-    setError(null)
-    setReady(false)
+    queueMicrotask(() => {
+      if (!cancelled) { setError(null); setReady(false) }
+    })
 
     getSD().then(SD => {
       if (cancelled || !svgRef.current) return
