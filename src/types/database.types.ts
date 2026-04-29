@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      calendar_events: {
+        Row: {
+          created_at: string | null
+          duration_minutes: number
+          external_id: string | null
+          id: string
+          scheduled_date: string
+          source: string
+          start_time: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          duration_minutes: number
+          external_id?: string | null
+          id?: string
+          scheduled_date: string
+          source?: string
+          start_time: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          duration_minutes?: number
+          external_id?: string | null
+          id?: string
+          scheduled_date?: string
+          source?: string
+          start_time?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       note_folders: {
         Row: {
           created_at: string
@@ -52,6 +88,36 @@ export type Database = {
           },
         ]
       }
+      note_references: {
+        Row: {
+          source_note_id: string
+          target_note_id: string
+        }
+        Insert: {
+          source_note_id: string
+          target_note_id: string
+        }
+        Update: {
+          source_note_id?: string
+          target_note_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "note_references_source_note_id_fkey"
+            columns: ["source_note_id"]
+            isOneToOne: false
+            referencedRelation: "notes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "note_references_target_note_id_fkey"
+            columns: ["target_note_id"]
+            isOneToOne: false
+            referencedRelation: "notes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notes: {
         Row: {
           content: string
@@ -60,6 +126,7 @@ export type Database = {
           difficulty: string
           emoji: string | null
           folder_id: string | null
+          id: string
           path: string | null
           rendered_at: string | null
           rendered_html: string | null
@@ -71,6 +138,7 @@ export type Database = {
           title: string
           topic: string
           updated_at: string | null
+          user_id: string
         }
         Insert: {
           content?: string
@@ -79,6 +147,7 @@ export type Database = {
           difficulty: string
           emoji?: string | null
           folder_id?: string | null
+          id?: string
           path?: string | null
           rendered_at?: string | null
           rendered_html?: string | null
@@ -90,6 +159,7 @@ export type Database = {
           title: string
           topic: string
           updated_at?: string | null
+          user_id?: string
         }
         Update: {
           content?: string
@@ -98,6 +168,7 @@ export type Database = {
           difficulty?: string
           emoji?: string | null
           folder_id?: string | null
+          id?: string
           path?: string | null
           rendered_at?: string | null
           rendered_html?: string | null
@@ -109,6 +180,7 @@ export type Database = {
           title?: string
           topic?: string
           updated_at?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -155,6 +227,177 @@ export type Database = {
           username?: string | null
         }
         Relationships: []
+      }
+      scheduled_study: {
+        Row: {
+          created_at: string | null
+          duration_minutes: number
+          id: string
+          scheduled_date: string
+          start_time: string
+          subtopic_id: string | null
+          title: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          duration_minutes?: number
+          id?: string
+          scheduled_date: string
+          start_time: string
+          subtopic_id?: string | null
+          title?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          duration_minutes?: number
+          id?: string
+          scheduled_date?: string
+          start_time?: string
+          subtopic_id?: string | null
+          title?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scheduled_study_subtopic_id_fkey"
+            columns: ["subtopic_id"]
+            isOneToOne: false
+            referencedRelation: "subtopics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subjects: {
+        Row: {
+          color: string
+          created_at: string | null
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          color: string
+          created_at?: string | null
+          id?: string
+          name: string
+          user_id: string
+        }
+        Update: {
+          color?: string
+          created_at?: string | null
+          id?: string
+          name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      subtopic_notes: {
+        Row: {
+          created_at: string | null
+          id: string
+          note_id: string
+          subtopic_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          note_id: string
+          subtopic_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          note_id?: string
+          subtopic_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subtopic_notes_note_id_fkey"
+            columns: ["note_id"]
+            isOneToOne: false
+            referencedRelation: "notes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subtopic_notes_subtopic_id_fkey"
+            columns: ["subtopic_id"]
+            isOneToOne: false
+            referencedRelation: "subtopics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subtopics: {
+        Row: {
+          created_at: string | null
+          id: string
+          last_reviewed_at: string | null
+          leitner_active: boolean | null
+          leitner_box: number | null
+          name: string
+          next_review_date: string | null
+          topic_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          last_reviewed_at?: string | null
+          leitner_active?: boolean | null
+          leitner_box?: number | null
+          name: string
+          next_review_date?: string | null
+          topic_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          last_reviewed_at?: string | null
+          leitner_active?: boolean | null
+          leitner_box?: number | null
+          name?: string
+          next_review_date?: string | null
+          topic_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subtopics_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      topics: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+          subject_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+          subject_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+          subject_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "topics_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       whiteboards: {
         Row: {
