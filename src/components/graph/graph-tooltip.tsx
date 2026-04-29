@@ -9,9 +9,7 @@ export function GraphTooltip({ node, x, y }: Props) {
       style={{ left: x + 14, top: y - 44 }}
     >
       <p className="text-sm font-semibold text-popover-foreground">{node.label}</p>
-      <p className="text-xs text-muted-foreground">
-        {node.retentionScore}% retention · {node.lastReviewedAt}
-      </p>
+      <p className="text-xs text-muted-foreground capitalize">{node.nodeType}</p>
     </div>
   )
 }
