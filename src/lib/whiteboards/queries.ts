@@ -1,5 +1,5 @@
 import 'server-only'
-import { getAuthenticatedSupabase } from '@/lib/whiteboards/auth'
+import { getAuthenticatedSupabase } from '@/lib/supabase/auth'
 import { toWhiteboard, toWhiteboardMeta } from '@/lib/whiteboards/shape'
 import type { Whiteboard, WhiteboardMeta, WhiteboardRow } from '@/types/whiteboard'
 
