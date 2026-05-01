@@ -3,7 +3,6 @@ import {
   Brain,
   Network,
   BookOpen,
-  PlusCircle,
   CalendarDays,
   Library,
   Settings,
@@ -14,22 +13,36 @@ import { NavGroup } from "@/types/nav"
 
 export const navGroups: NavGroup[] = [
   {
-    title: "Main",
+    title: "Overview",
     items: [
-      { label: "Dashboard",       href: "/dashboard", icon: LayoutDashboard },
-      { label: "Progress",        href: "/progress",  icon: Brain           },
-      { label: "Knowledge Graph", href: "/graph",     icon: Network         },
-      { label: "Study Plan",      href: "/studyplan",  icon: CalendarDays    },
+      { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    ],
+  },
+  {
+    title: "Plan",
+    items: [
+      { label: "Study Plan", href: "/studyplan", icon: CalendarDays },
+    ],
+  },
+  {
+    title: "Library",
+    items: [
+      { label: "Notes",    href: "/notes",    icon: FileText },
+      { label: "Subjects", href: "/subjects", icon: Library  },
     ],
   },
   {
     title: "Study",
     items: [
-      { label: "Notes",         href: "/notes",       icon: FileText   },
-      { label: "Subjects",      href: "/subjects",    icon: Library    },
-      { label: "Study Session", href: "/session",     icon: BookOpen   },
-      { label: "Whiteboard",    href: "/whiteboard",  icon: Pencil     },
-      { label: "Add Content",   href: "/content/new", icon: PlusCircle },
+      { label: "Study Session", href: "/session",    icon: BookOpen },
+      { label: "Whiteboard",    href: "/whiteboard", icon: Pencil   },
+    ],
+  },
+  {
+    title: "Insights",
+    items: [
+      { label: "Progress",        href: "/progress", icon: Brain   },
+      { label: "Knowledge Graph", href: "/graph",    icon: Network },
     ],
   },
   {
