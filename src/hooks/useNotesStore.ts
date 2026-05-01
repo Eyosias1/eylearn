@@ -4,8 +4,8 @@ import { startTransition, useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { NoteMeta, NoteRecord } from '@/types/NoteRecordType'
 import type { NoteFolder } from '@/types/NoteFolderType'
-import { createNoteAction, updateNoteAction, deleteNoteAction } from '@/lib/actions/note-actions'
-import { createNoteFolderAction, deleteNoteFolderAction, moveNoteFolderAction, updateNoteFolderAction, updateNoteFolderEmojiAction } from '@/lib/actions/note-folder-actions'
+import { createNoteAction, updateNoteAction, deleteNoteAction } from '@/lib/actions/notes'
+import { createNoteFolderAction, deleteNoteFolderAction, moveNoteFolderAction, updateNoteFolderAction, updateNoteFolderEmojiAction } from '@/lib/actions/notes/folder-actions'
 
 export type NoteSaveState = 'idle' | 'saving' | 'saved' | 'error'
 

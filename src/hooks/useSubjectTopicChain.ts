@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { getSubjects } from "@/lib/actions/subjects"
 import { getTopics } from "@/lib/actions/topics"
-import { getSubtopicsByTopic } from "@/lib/actions/studyplan-actions"
+import { getSubtopicsByTopic } from "@/lib/actions/studyplan"
 import type { Subject } from "@/types/SubjectType"
 import type { Topic } from "@/types/TopicType"
 

@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useSubjectTopicChain } from "@/hooks/useSubjectTopicChain"
-import { updateScheduledStudy } from "@/lib/actions/studyplan-actions"
+import { updateScheduledStudy } from "@/lib/actions/studyplan"
 import type { PlanTopic } from "@/types/studyplan"
 
 const NONE = "__none__"

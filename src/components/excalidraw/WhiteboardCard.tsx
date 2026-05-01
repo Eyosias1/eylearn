@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { WhiteboardPreview } from '@/components/excalidraw/WhiteboardPreview'
 import { WhiteboardDeleteDialog } from '@/components/excalidraw/WhiteboardDeleteDialog'
-import { updateWhiteboardTitleAction } from '@/lib/actions/whiteboard-actions'
+import { updateWhiteboardTitleAction } from '@/lib/actions/whiteboards'
 import { cn } from '@/lib/utils'
 import type { WhiteboardMeta } from '@/types/whiteboard'
 

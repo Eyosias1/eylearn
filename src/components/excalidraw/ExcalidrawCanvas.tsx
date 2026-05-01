@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useExcalidrawDrawing } from '@/hooks/useExcalidrawDrawing'
-import { updateWhiteboardTitleAction } from '@/lib/actions/whiteboard-actions'
+import { updateWhiteboardTitleAction } from '@/lib/actions/whiteboards'
 import { supabaseDrawingStore } from '@/lib/excalidraw/supabase-store'
 import type { DrawingStore } from '@/lib/excalidraw/store'
 

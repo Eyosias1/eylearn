@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { WhiteboardCard } from '@/components/excalidraw/WhiteboardCard'
-import { createWhiteboardAction } from '@/lib/actions/whiteboard-actions'
+import { createWhiteboardAction } from '@/lib/actions/whiteboards'
 import type { WhiteboardMeta } from '@/types/whiteboard'
 
 interface WhiteboardGalleryProps {

@@ -13,7 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { deleteWhiteboardAction } from '@/lib/actions/whiteboard-actions'
+import { deleteWhiteboardAction } from '@/lib/actions/whiteboards'
 
 interface WhiteboardDeleteDialogProps {
   boardId: string

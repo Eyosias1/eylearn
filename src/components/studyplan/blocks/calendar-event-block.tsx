@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils"
 import { encodeDrag, storeDragOffset } from "@/lib/studyplan/drag-time-utility"
 import { useBlockResize } from "@/hooks/useBlockResize"
-import { updateCalendarEvent } from "@/lib/actions/calendar-actions"
+import { updateCalendarEvent } from "@/lib/actions/studyplan/calendar"
 import type { BlockLayout } from "@/lib/studyplan/layout-blocks"
 import type { CalendarEvent } from "@/types/studyplan"
 

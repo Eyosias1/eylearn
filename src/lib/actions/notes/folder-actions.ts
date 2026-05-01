@@ -1,12 +1,16 @@
 'use server'
 
 import { updateTag } from 'next/cache'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { getAuthenticatedSupabase } from '@/lib/supabase/auth'
 import { slugify } from '@/lib/slugify'
+import type { Database } from '@/types/database.types'
+import type { SupabaseClient } from '@supabase/supabase-js'
+
+type DbClient = SupabaseClient<Database>
 
 export async function createNoteFolderAction(name: string, parentId: string | null) {
-  const db = createAdminClient()
-  const { error } = await db.from('note_folders').insert({
+  const { supabase } = await getAuthenticatedSupabase()
+  const { error } = await supabase.from('note_folders').insert({
     name,
     emoji: '📁',
     slug: slugify(name),
@@ -17,22 +21,22 @@ export async function createNoteFolderAction(name: string, parentId: string | nu
 }
 
 export async function deleteNoteFolderAction(id: string) {
-  const db = createAdminClient()
-  const folderIds = await getFolderTreeIds(id)
+  const { supabase } = await getAuthenticatedSupabase()
+  const folderIds = await getFolderTreeIds(supabase, id)
 
-  const { data: notes, error: notesError } = await db
+  const { data: notes, error: notesError } = await supabase
     .from('notes')
     .select('slug')
     .in('folder_id', folderIds)
   if (notesError) throw new Error(notesError.message)
 
   if (notes?.length) {
-    const { error } = await db.from('notes').delete().in('slug', notes.map(note => note.slug))
+    const { error } = await supabase.from('notes').delete().in('slug', notes.map(note => note.slug))
     if (error) throw new Error(error.message)
   }
 
   for (const folderId of folderIds.toReversed()) {
-    const { error } = await db.from('note_folders').delete().eq('id', folderId)
+    const { error } = await supabase.from('note_folders').delete().eq('id', folderId)
     if (error) throw new Error(error.message)
   }
 
@@ -41,12 +45,11 @@ export async function deleteNoteFolderAction(id: string) {
   updateTag('note-folders')
 }
 
-async function getFolderTreeIds(rootId: string) {
-  const db = createAdminClient()
+async function getFolderTreeIds(supabase: DbClient, rootId: string) {
   const ids = [rootId]
 
   for (let index = 0; index < ids.length; index += 1) {
-    const { data, error } = await db
+    const { data, error } = await supabase
       .from('note_folders')
       .select('id')
       .eq('parent_id', ids[index])
@@ -60,10 +63,10 @@ async function getFolderTreeIds(rootId: string) {
 export async function moveNoteFolderAction(id: string, parentId: string | null) {
   if (id === parentId) throw new Error('A folder cannot contain itself')
 
-  const db = createAdminClient()
+  const { supabase } = await getAuthenticatedSupabase()
   let cursor = parentId
   while (cursor) {
-    const { data, error } = await db
+    const { data, error } = await supabase
       .from('note_folders')
       .select('parent_id')
       .eq('id', cursor)
@@ -73,14 +76,14 @@ export async function moveNoteFolderAction(id: string, parentId: string | null) 
     cursor = data.parent_id
   }
 
-  const { error } = await db.from('note_folders').update({ parent_id: parentId }).eq('id', id)
+  const { error } = await supabase.from('note_folders').update({ parent_id: parentId }).eq('id', id)
   if (error) throw new Error(error.message)
   updateTag('note-folders')
 }
 
 export async function updateNoteFolderAction(id: string, name: string) {
-  const db = createAdminClient()
-  const { error } = await db
+  const { supabase } = await getAuthenticatedSupabase()
+  const { error } = await supabase
     .from('note_folders')
     .update({ name, slug: slugify(name) })
     .eq('id', id)
@@ -89,8 +92,8 @@ export async function updateNoteFolderAction(id: string, name: string) {
 }
 
 export async function updateNoteFolderEmojiAction(id: string, emoji: string) {
-  const db = createAdminClient()
-  const { error } = await db.from('note_folders').update({ emoji }).eq('id', id)
+  const { supabase } = await getAuthenticatedSupabase()
+  const { error } = await supabase.from('note_folders').update({ emoji }).eq('id', id)
   if (error) throw new Error(error.message)
   updateTag('note-folders')
 }

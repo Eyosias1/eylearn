@@ -7,7 +7,7 @@ import type { NoteChunk } from '@/types/NoteChunk'
 import { NoteRenderer } from '@/components/notes/renderer/NoteRenderer'
 import { NoteMetricsBadge } from '@/components/notes/page/NoteMetricsBadge'
 import { NotePageActions } from '@/components/notes/page/NotePageActions'
-import { renderNote } from '@/lib/actions/render-note'
+import { renderNote } from '@/lib/actions/notes/render-note'
 import { useRegisterNoteAssistantContext } from '@/hooks/useRegisterNoteAssistantContext'
 
 interface NotePageClientProps {

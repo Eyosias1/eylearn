@@ -11,7 +11,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ImportDateRange } from "@/components/studyplan/import/import-date-range"
 import { parseIcs } from "@/lib/studyplan/parse-ics"
-import { importCalendarEvents } from "@/lib/actions/calendar-actions"
+import { importCalendarEvents } from "@/lib/actions/studyplan/calendar"
 import { cn } from "@/lib/utils"
 import type { CalendarEventInsert } from "@/types/studyplan"
 

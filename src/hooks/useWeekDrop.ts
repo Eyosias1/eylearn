@@ -1,8 +1,8 @@
 "use client"
 
 import { useTransition } from "react"
-import { updateScheduledStudy } from "@/lib/actions/studyplan-actions"
-import { updateCalendarEvent } from "@/lib/actions/calendar-actions"
+import { updateScheduledStudy } from "@/lib/actions/studyplan"
+import { updateCalendarEvent } from "@/lib/actions/studyplan/calendar"
 import type { CalendarEvent, PlanEvent } from "@/types/studyplan"
 
 export function useWeekDrop(events: PlanEvent[], calendarEvents: CalendarEvent[]) {

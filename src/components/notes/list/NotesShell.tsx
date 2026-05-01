@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import { NoteCard } from '@/components/notes/list/NoteCard'
 import { NewNoteDialog } from '@/components/notes/list/NewNoteDialog'
 import { useNotesContext } from '@/providers/notes-store-provider'
-import { updateNoteAction } from '@/lib/actions/note-actions'
+import { updateNoteAction } from '@/lib/actions/notes'
 import { slugify } from '@/lib/slugify'
 import type { NoteRecord } from '@/types/NoteRecordType'
 

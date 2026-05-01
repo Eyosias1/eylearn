@@ -5,7 +5,7 @@ import { NotesSidebar } from '@/components/notes/sidebar/NotesSidebar'
 import { useNotesContext } from '@/providers/notes-store-provider'
 import { buildNoteFolderTree } from '@/lib/notes/folder-tree'
 import { slugify } from '@/lib/slugify'
-import { updateNoteAction } from '@/lib/actions/note-actions'
+import { updateNoteAction } from '@/lib/actions/notes'
 
 const today = () => new Date().toISOString().split('T')[0]
 

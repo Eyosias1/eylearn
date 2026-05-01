@@ -14,7 +14,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
-import { getIncomingReferencesAction } from '@/lib/actions/note-actions'
+import { getIncomingReferencesAction } from '@/lib/actions/notes'
 
 interface NotesDeleteDialogProps {
   itemType: 'folder' | 'note'

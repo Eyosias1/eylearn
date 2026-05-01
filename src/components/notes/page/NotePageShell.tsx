@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { renderNote } from '@/lib/actions/render-note'
-import { updateNoteAction } from '@/lib/actions/note-actions'
+import { renderNote } from '@/lib/actions/notes/render-note'
+import { updateNoteAction } from '@/lib/actions/notes'
 import { NotePageClient } from '@/components/notes/page/NotePageClient'
 import { NotePageHeader } from '@/components/notes/page/NotePageHeader'
 import type { NoteRecord } from '@/types/NoteRecordType'
