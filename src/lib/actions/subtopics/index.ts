@@ -31,7 +31,7 @@ export async function linkSubtopicNote(subtopicId: string, noteId: string): Prom
   const { supabase } = await getAuthenticatedSupabase()
   const { error } = await supabase.from("subtopic_notes").insert({ subtopic_id: subtopicId, note_id: noteId })
   if (error && error.code !== "23505") throw new Error(error.message)
-  revalidatePath("/subjects")
+  revalidatePath("/library")
 }
 
 export async function unlinkSubtopicNote(subtopicId: string, noteId: string): Promise<void> {
@@ -42,7 +42,7 @@ export async function unlinkSubtopicNote(subtopicId: string, noteId: string): Pr
     .eq("subtopic_id", subtopicId)
     .eq("note_id", noteId)
   if (error) throw new Error(error.message)
-  revalidatePath("/subjects")
+  revalidatePath("/library")
 }
 
 export async function getAllSubtopics(): Promise<Subtopic[]> {
@@ -59,19 +59,19 @@ export async function createSubtopic(topicId: string, name: string): Promise<voi
   const { supabase } = await getAuthenticatedSupabase()
   const { error } = await supabase.from("subtopics").insert({ topic_id: topicId, name })
   if (error) throw new Error(error.message)
-  revalidatePath("/subjects")
+  revalidatePath("/library")
 }
 
 export async function updateSubtopic(id: string, name: string): Promise<void> {
   const { supabase } = await getAuthenticatedSupabase()
   const { error } = await supabase.from("subtopics").update({ name }).eq("id", id)
   if (error) throw new Error(error.message)
-  revalidatePath("/subjects")
+  revalidatePath("/library")
 }
 
 export async function deleteSubtopic(id: string): Promise<void> {
   const { supabase } = await getAuthenticatedSupabase()
   const { error } = await supabase.from("subtopics").delete().eq("id", id)
   if (error) throw new Error(error.message)
-  revalidatePath("/subjects")
+  revalidatePath("/library")
 }
