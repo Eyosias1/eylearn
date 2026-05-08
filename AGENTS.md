@@ -49,6 +49,23 @@ src/
 - UI rendering → inside components
 - Never fetch data or write business logic directly inside a component
 
+## `lib/` Domain Convention
+```
+src/lib/
+  actions/      # Server actions (mutations only — insert, update, delete)
+                # Subfolders by domain: actions/questions/, actions/studyplan/, etc.
+  [domain]/     # Read-only data fetching by domain
+                # e.g. lib/session-history/, lib/progress/, lib/dashboard/
+```
+- `lib/actions/` is for **mutations** only — never put data fetching here
+- `lib/[domain]/` is for **read fetching** scoped to that feature/page
+- Never mix mutations and reads in the same file
+- Name the folder after the feature it serves, not a generic name like `lib/data/`
+
+# Color & Visual Accents
+
+When reducing color in a UI, make stat numbers neutral (`text-foreground`) — do **not** add colored border accents (e.g. `border-l-4`) as a substitute. If the label already conveys meaning, no color is needed on the number.
+
 # Git Commits
 
 Never add `Co-Authored-By` lines to commit messages.

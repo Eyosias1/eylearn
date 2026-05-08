@@ -1,7 +1,7 @@
 "use client"
 
-import { studyModes } from "@/lib/sessions/constants"
-import { StudyModeCard } from "@/components/session/StudyModeCard"
+import { studyModes } from "@/lib/study-session/constants"
+import { StudyModeCard } from "@/components/session/config/StudyModeCard"
 import type { StudyMode } from "@/types/StudySessionType"
 
 type Props = {
@@ -15,7 +15,7 @@ export function StudyModeSelector({ selected, onSelect }: Props) {
       <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
         Select Mode
       </p>
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
         {studyModes.map((mode) => (
           <StudyModeCard
             key={mode.id}
