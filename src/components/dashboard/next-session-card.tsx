@@ -24,13 +24,11 @@ export function NextSessionCard({ session }: Props) {
   return (
     <div className={cn(
       // layout
-      "flex flex-col justify-between",
-      // sizing
-      "h-full min-h-[280px]",
+      "flex flex-col",
       // spacing
-      "p-7 gap-8",
+      "p-7 gap-4",
       // colors
-      "bg-foreground text-background",
+      "bg-primary text-primary-foreground",
       // border
       "rounded-xl",
       session.status === "overdue" && "border-2 border-destructive",
@@ -41,7 +39,7 @@ export function NextSessionCard({ session }: Props) {
         </p>
         <div className="flex flex-col gap-2">
           <p className="text-4xl font-bold leading-[1.1] tracking-tight">
-            Next Session:<br />{session.subject}
+            Next Session: {session.subject}
           </p>
           <p className="text-base opacity-80 leading-relaxed">
             Focus on &ldquo;{session.topic}&rdquo; for {session.durationMinutes} minutes{" "}

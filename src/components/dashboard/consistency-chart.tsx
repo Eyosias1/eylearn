@@ -1,54 +1,107 @@
 "use client"
 
-import { Bar, BarChart, ResponsiveContainer, Tooltip } from "recharts"
+import * as React from "react"
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from "@/components/ui/chart"
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 import type { ConsistencyDay } from "@/types/dashboard"
 
 interface Props {
   data: ConsistencyDay[]
 }
 
-interface TooltipPayload {
-  active?: boolean
-  payload?: { payload: { label: string; minutes: number } }[]
-}
+const chartConfig = {
+  minutes: {
+    label: "Minutes studied",
+    color: "var(--color-primary)",
+  },
+} satisfies ChartConfig
 
-function ChartTooltip({ active, payload }: TooltipPayload) {
-  if (!active || !payload?.length) return null
-  const d = payload[0].payload
-  return (
-    <div className="rounded-md border bg-popover px-2 py-1.5 text-xs shadow-sm">
-      <p className="font-medium">{d.label}</p>
-      <p className="text-muted-foreground">{d.minutes} min</p>
-    </div>
-  )
-}
+const RANGES = [
+  { label: "7d",  days: 7  },
+  { label: "14d", days: 14 },
+  { label: "30d", days: 30 },
+] as const
+
+type Range = typeof RANGES[number]["days"]
 
 export function ConsistencyChart({ data }: Props) {
-  const chartData = data.map((d) => ({
-    label: new Date(d.date).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
-    minutes: d.minutes,
-  }))
+  const [range, setRange] = React.useState<Range>(14)
+
+  const chartData = data
+    .slice(-range)
+    .map((d) => ({
+      date: d.date,
+      minutes: d.minutes,
+    }))
 
   return (
     <Card>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base font-semibold">Consistency (14d)</CardTitle>
-        <p className="text-xs text-muted-foreground">Daily study activity</p>
+      <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <div className="flex flex-col gap-0.5">
+          <CardTitle className="text-base font-semibold">Consistency</CardTitle>
+          <p className="text-xs text-muted-foreground">Daily study activity</p>
+        </div>
+        <div className={cn("flex items-center gap-1")}>
+          {RANGES.map(({ label, days }) => (
+            <Button
+              key={days}
+              variant={range === days ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setRange(days)}
+              className="h-7 px-2.5 text-xs"
+            >
+              {label}
+            </Button>
+          ))}
+        </div>
       </CardHeader>
       <CardContent className="px-2 pb-3">
-        <div className="h-[72px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData} barSize={10} barGap={2}>
-              <Tooltip content={<ChartTooltip />} cursor={false} />
-              <Bar dataKey="minutes" radius={[2, 2, 0, 0]} className="fill-primary opacity-80" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-        <div className="flex justify-between mt-1 px-1">
-          <p className="text-[10px] text-muted-foreground">14 days ago</p>
-          <p className="text-[10px] text-muted-foreground">Today</p>
-        </div>
+        <ChartContainer config={chartConfig} className="h-[100px] w-full">
+          <BarChart
+            data={chartData}
+            barSize={range === 7 ? 18 : range === 14 ? 12 : 7}
+            margin={{ left: 4, right: 4 }}
+          >
+            <CartesianGrid vertical={false} stroke="var(--border)" strokeDasharray="3 3" />
+            <XAxis
+              dataKey="date"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={6}
+              minTickGap={range === 7 ? 0 : 20}
+              tickFormatter={(value) =>
+                new Date(value).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                })
+              }
+              className="text-[10px]"
+            />
+            <ChartTooltip
+              cursor={false}
+              content={
+                <ChartTooltipContent
+                  hideLabel
+                  labelFormatter={(value) =>
+                    new Date(value).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                    })
+                  }
+                />
+              }
+            />
+            <Bar dataKey="minutes" fill="var(--color-minutes)" radius={[3, 3, 0, 0]} />
+          </BarChart>
+        </ChartContainer>
       </CardContent>
     </Card>
   )
