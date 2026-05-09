@@ -2,113 +2,75 @@
 
 import { useState } from "react"
 import { Switch } from "@/components/ui/switch"
-import { Input } from "@/components/ui/input"
 import { SectionLayout, SettingRow } from "./section-layout"
 
+const ALWAYS_ON = (
+  <span className="text-xs text-muted-foreground">Always sent</span>
+)
+
 export function NotificationsSection() {
-  const [email, setEmail] = useState({ daily: true, weekly: true, nudges: false })
-  const [push, setPush] = useState({ due: true, streak: true, sessions: false })
-  const [quiet, setQuiet] = useState(true)
+  const [productUpdates, setProductUpdates] = useState(true)
 
   return (
     <SectionLayout
       title="Notifications"
-      description="Email, push, and quiet hours."
+      description="Emails sent by EyLearn."
       blocks={[
         {
-          title: "Email",
-          description: "Sent to eyosias16@gmail.com.",
+          title: "Transactional",
+          description: "Required emails. Cannot be turned off.",
           children: (
             <>
               <SettingRow
-                label="Daily review digest"
-                description="A 7 AM summary of what's due today."
+                label="Welcome"
+                description="Sent once when you create your account."
               >
-                <Switch
-                  checked={email.daily}
-                  onCheckedChange={(v) => setEmail({ ...email, daily: v })}
-                />
+                {ALWAYS_ON}
               </SettingRow>
               <div className="h-px bg-border" />
               <SettingRow
-                label="Weekly retention report"
-                description="Sundays. Trend lines + topics slipping below 70%."
+                label="Email verification"
+                description="Sent when you sign up or change your email."
               >
-                <Switch
-                  checked={email.weekly}
-                  onCheckedChange={(v) => setEmail({ ...email, weekly: v })}
-                />
+                {ALWAYS_ON}
               </SettingRow>
               <div className="h-px bg-border" />
               <SettingRow
-                label="Product nudges"
-                description="Occasional tips on getting more from spaced repetition."
+                label="Password reset"
+                description="Sent when you request a password reset."
               >
-                <Switch
-                  checked={email.nudges}
-                  onCheckedChange={(v) => setEmail({ ...email, nudges: v })}
-                />
+                {ALWAYS_ON}
+              </SettingRow>
+              <div className="h-px bg-border" />
+              <SettingRow
+                label="Billing receipts"
+                description="Sent after every successful payment."
+              >
+                {ALWAYS_ON}
+              </SettingRow>
+              <div className="h-px bg-border" />
+              <SettingRow
+                label="Payment failed"
+                description="Sent if a charge fails on your account."
+              >
+                {ALWAYS_ON}
               </SettingRow>
             </>
           ),
         },
         {
-          title: "Push",
-          description: "Delivered to this browser and any installed mobile app.",
+          title: "Marketing",
+          description: "Optional emails you can opt out of.",
           children: (
-            <>
-              <SettingRow
-                label="Cards are due"
-                description="Fires when you have 5+ cards ready for review."
-              >
-                <Switch
-                  checked={push.due}
-                  onCheckedChange={(v) => setPush({ ...push, due: v })}
-                />
-              </SettingRow>
-              <div className="h-px bg-border" />
-              <SettingRow
-                label="Streak about to break"
-                description="Sent at 8 PM if you haven't studied that day."
-              >
-                <Switch
-                  checked={push.streak}
-                  onCheckedChange={(v) => setPush({ ...push, streak: v })}
-                />
-              </SettingRow>
-              <div className="h-px bg-border" />
-              <SettingRow
-                label="Scheduled session reminders"
-                description="10 minutes before each AI-scheduled block."
-              >
-                <Switch
-                  checked={push.sessions}
-                  onCheckedChange={(v) => setPush({ ...push, sessions: v })}
-                />
-              </SettingRow>
-            </>
-          ),
-        },
-        {
-          title: "Quiet hours",
-          description: "No push notifications during this window.",
-          children: (
-            <>
-              <SettingRow label="Enable quiet hours">
-                <Switch checked={quiet} onCheckedChange={setQuiet} />
-              </SettingRow>
-              <div className="h-px bg-border" />
-              <SettingRow
-                label="Window"
-                description="Repeats every day in your local timezone."
-              >
-                <div className="flex items-center gap-2">
-                  <Input type="time" defaultValue="22:00" className="w-28" />
-                  <span className="text-xs text-muted-foreground">to</span>
-                  <Input type="time" defaultValue="07:00" className="w-28" />
-                </div>
-              </SettingRow>
-            </>
+            <SettingRow
+              label="Product updates"
+              description="New features, improvements, and changelog highlights."
+            >
+              <Switch
+                checked={productUpdates}
+                onCheckedChange={setProductUpdates}
+              />
+            </SettingRow>
           ),
         },
       ]}

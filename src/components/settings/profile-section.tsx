@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Upload } from "lucide-react"
+import { Upload, TriangleAlert, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -116,6 +116,30 @@ export function ProfileSection() {
                 <Input type="date" defaultValue="2026-07-15" className="w-44" />
               </SettingRow>
             </>
+          ),
+        },
+        {
+          title: "Delete account",
+          description: "Permanently removes your account and all associated data.",
+          children: (
+            <div className="flex items-start justify-between gap-6 py-3">
+              <div className="flex items-start gap-3">
+                <div className="flex items-center justify-center size-8 rounded-md bg-destructive/10 text-destructive shrink-0">
+                  <TriangleAlert className="size-4" />
+                </div>
+                <div className="flex flex-col gap-1 max-w-sm">
+                  <p className="text-sm font-medium text-foreground">This action is permanent.</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    You&apos;ll have 14 days to recover your account from the confirmation
+                    email, after which everything is erased from our servers.
+                  </p>
+                </div>
+              </div>
+              <Button variant="destructive" size="sm" className="shrink-0">
+                <Trash2 className="size-4" />
+                Delete account
+              </Button>
+            </div>
           ),
         },
       ]}

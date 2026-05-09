@@ -1,10 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState, useSyncExternalStore } from "react"
 import { useTheme } from "next-themes"
 import { Check } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { SectionLayout, SettingRow } from "./section-layout"
+import { Button } from "@/components/ui/button"
+import { SectionLayout } from "./section-layout"
 
 const THEMES = [
   {
@@ -34,18 +35,13 @@ const ACCENTS = [
 
 export function AppearanceSection() {
   const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-  const [density, setDensity] = useState("comfortable")
+  const mounted = useSyncExternalStore(() => () => {}, () => true, () => false)
   const [accent, setAccent] = useState("neutral")
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   return (
     <SectionLayout
       title="Appearance"
-      description="Theme, density, and accent color."
+      description="Theme and accent color."
       blocks={[
         {
           title: "Theme",
@@ -53,11 +49,12 @@ export function AppearanceSection() {
           children: (
             <div className="grid grid-cols-3 gap-3 py-3">
               {THEMES.map((t) => (
-                <button
+                <Button
+                  variant="ghost"
                   key={t.k}
                   onClick={() => setTheme(t.k)}
                   className={cn(
-                    "flex flex-col items-start gap-3 p-3 rounded-xl border text-left transition-all",
+                    "flex flex-col items-start gap-3 p-3 h-auto rounded-xl border text-left transition-all",
                     mounted && theme === t.k
                       ? "border-foreground/30 ring-1 ring-foreground/10 bg-muted/40"
                       : "border-border hover:bg-muted/40"
@@ -72,7 +69,7 @@ export function AppearanceSection() {
                       </span>
                     )}
                   </div>
-                </button>
+                </Button>
               ))}
             </div>
           ),
@@ -83,7 +80,8 @@ export function AppearanceSection() {
           children: (
             <div className="flex flex-wrap items-center gap-2 py-3">
               {ACCENTS.map((a) => (
-                <button
+                <Button
+                  variant="ghost"
                   key={a.k}
                   onClick={() => setAccent(a.k)}
                   className={cn(
@@ -97,36 +95,9 @@ export function AppearanceSection() {
                     className={cn("size-5 rounded-full ring-1 ring-foreground/10", a.color)}
                   />
                   <span>{a.label}</span>
-                </button>
+                </Button>
               ))}
             </div>
-          ),
-        },
-        {
-          title: "Density",
-          description: "How much whitespace to leave between cards and rows.",
-          children: (
-            <SettingRow
-              label="Interface density"
-              description="Compact reduces padding by ~20% across the app."
-            >
-              <div className="flex items-center p-0.5 rounded-lg bg-muted text-xs font-medium">
-                {["comfortable", "compact"].map((d) => (
-                  <button
-                    key={d}
-                    onClick={() => setDensity(d)}
-                    className={cn(
-                      "h-7 px-3 rounded-md capitalize transition-colors",
-                      density === d
-                        ? "bg-background text-foreground shadow-sm ring-1 ring-foreground/10"
-                        : "text-muted-foreground hover:text-foreground"
-                    )}
-                  >
-                    {d}
-                  </button>
-                ))}
-              </div>
-            </SettingRow>
           ),
         },
       ]}
