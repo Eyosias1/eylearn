@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run lint && bunx tsc --noEmit",
+            "timeout": 120,
+            "statusMessage": "Running CI checks..."
+          }
+        ]
+      }
+    ]
+  }
+}
