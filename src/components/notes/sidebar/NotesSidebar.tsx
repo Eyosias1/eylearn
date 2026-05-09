@@ -34,6 +34,7 @@ export function NotesSidebar(props: NotesSidebarProps) {
   const [creatingRootFolder, setCreatingRootFolder] = useState(false)
   const [creatingRootNote,   setCreatingRootNote]   = useState(false)
   const [collapseSignal,     setCollapseSignal]     = useState(0)
+  const [revealedFolderId,   setRevealedFolderId]   = useState<string | null>(null)
 
   return (
     <aside className={cn(
@@ -66,6 +67,7 @@ export function NotesSidebar(props: NotesSidebarProps) {
           creatingRootNote={creatingRootNote}
           setCreatingRootNote={setCreatingRootNote}
           collapseSignal={collapseSignal}
+          revealedFolderId={revealedFolderId}
         />
       )}
       {!open && (
@@ -73,7 +75,10 @@ export function NotesSidebar(props: NotesSidebarProps) {
           roots={roots}
           unfiled={unfiled}
           activeSlug={activeSlug}
-          onOpen={() => setOpen(true)}
+          onOpenFolder={(id) => {
+            setRevealedFolderId(id)
+            setOpen(true)
+          }}
         />
       )}
     </aside>

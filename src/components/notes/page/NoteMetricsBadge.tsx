@@ -16,7 +16,7 @@ export function NoteMetricsBadge({ content }: NoteMetricsBadgeProps) {
         // spacing
         "px-2.5 py-1",
         // typography
-        "font-mono text-[11px]",
+        "font-mono text-xs",
         // colors
         "bg-background/80 text-muted-foreground",
       )}

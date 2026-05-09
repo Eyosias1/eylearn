@@ -58,7 +58,7 @@ export function NoteSidebarLink(props: NoteSidebarLinkProps) {
             if (event.key === 'Enter') { event.preventDefault(); commitTitle() }
             if (event.key === 'Escape') { event.preventDefault(); setDraftTitle(note.title); setEditing(false) }
           }}
-          className="mx-1 h-11 min-w-0 flex-1 pl-8 text-base"
+          className="mx-1 h-10 min-w-0 flex-1 pl-8 text-sm"
         />
       ) : (
         <Link
@@ -74,17 +74,17 @@ export function NoteSidebarLink(props: NoteSidebarLinkProps) {
             // layout
             "flex min-w-0 flex-1 items-center",
             // spacing
-            "h-11 px-2 py-2.5 pl-10 pr-3 mx-1 group-hover/note:pr-20",
+            "h-10 px-2 py-2 pl-10 pr-20 mx-1",
             // typography
-            "text-base truncate",
+            "text-sm truncate",
             // border
             "rounded-md",
             // animation
             "transition-colors",
             // conditional
             note.slug === activeSlug
-              ? "bg-accent text-accent-foreground font-medium"
-              : "text-muted-foreground hover:text-foreground hover:bg-accent/50",
+              ? "bg-sidebar-primary text-sidebar-primary-foreground font-semibold shadow-sm hover:bg-sidebar-primary hover:text-sidebar-primary-foreground"
+              : "text-sidebar-foreground hover:bg-sidebar-primary/10 hover:text-sidebar-primary",
           )}
         >
           <span className="truncate">{note.title}</span>

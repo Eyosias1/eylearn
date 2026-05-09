@@ -28,11 +28,11 @@ function Row({ label, color, expanded, onToggle, onEdit, onDelete }: {
 }) {
   return (
     <div className="flex items-center justify-between group hover:bg-muted/20 pl-3 pr-3 py-1.5">
-      <button onClick={onToggle} className="flex items-center gap-2 flex-1 min-w-0 text-left">
+      <Button variant="ghost" onClick={onToggle} className="flex items-center justify-start gap-2 flex-1 min-w-0 text-left focus-visible:ring-0">
         {onToggle && <ChevronRight className={cn("size-3 text-muted-foreground transition-transform shrink-0", expanded && "rotate-90")} />}
         {color && <span className={cn("size-2 rounded-full shrink-0", color)} />}
         <span className="text-sm truncate">{label}</span>
-      </button>
+      </Button>
       <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
         <Button variant="ghost" size="icon-sm" onClick={onEdit}><Pencil className="size-3" /></Button>
         <Button variant="ghost" size="icon-sm" className="text-destructive hover:text-destructive" onClick={onDelete}><Trash2 className="size-3" /></Button>
@@ -52,7 +52,7 @@ export function SubjectsManageTree({ subjects, topicsBySubject, subtopicsByTopic
             onDelete={() => onDelete({ type: "subject", item: subject })}
           />
           {!!expanded[subject.id] && (
-            <div className="ml-4 border-l-2 border-border">
+            <div className="ml-8 border-l-2 border-border">
               {(topicsBySubject[subject.id] ?? []).map((topic) => (
                 <div key={topic.id}>
                   <Row label={topic.name} expanded={!!expanded[topic.id]}
@@ -61,7 +61,7 @@ export function SubjectsManageTree({ subjects, topicsBySubject, subtopicsByTopic
                     onDelete={() => onDelete({ type: "topic", item: topic })}
                   />
                   {!!expanded[topic.id] && (
-                    <div className="ml-4 border-l-2 border-border">
+                    <div className="ml-6 border-l-2 border-border">
                       {(subtopicsByTopic[topic.id] ?? []).map((subtopic) => (
                         <Row key={subtopic.id} label={subtopic.name}
                           onEdit={() => onEdit({ type: "subtopic", item: subtopic })}

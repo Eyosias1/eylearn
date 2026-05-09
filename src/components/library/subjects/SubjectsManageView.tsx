@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation"
 import { X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
-import { SubjectDialog } from "@/components/subjects/subject-dialog"
-import { TopicDialog } from "@/components/topics/topic-dialog"
-import { SubtopicDialog } from "@/components/subtopics/subtopic-dialog"
+import { SubjectDialog } from "@/components/library/subjects/subject-dialog"
+import { TopicDialog } from "@/components/library/subjects/topic-dialog"
+import { SubtopicDialog } from "@/components/library/subjects/subtopic-dialog"
 import { SubjectsManageTree, type ManageTarget } from "@/components/library/subjects/SubjectsManageTree"
 import { deleteSubject } from "@/lib/actions/subjects"
 import { deleteTopic } from "@/lib/actions/topics"
@@ -59,7 +59,7 @@ export function SubjectsManageView({ subjects: init, topicsBySubject: initTopics
       // layout
       "flex flex-col shrink-0 overflow-hidden",
       // sizing
-      "w-72 max-h-[calc(100vh-8rem)]",
+      "w-82 max-h-[calc(100vh-8rem)]",
       // border
       "rounded-xl border",
       // colors

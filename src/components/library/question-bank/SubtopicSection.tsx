@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Plus } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import { QuestionCard } from "@/components/library/question-bank/QuestionCard"
 import { AddQuestionForm } from "@/components/library/question-bank/AddQuestionForm"
 import { deleteQuestion } from "@/lib/actions/questions"
@@ -50,12 +51,12 @@ export function SubtopicSection({ subtopic, questions: initial, topicId }: Props
           <QuestionCard key={q.id} question={q} onDelete={handleDelete} onUpdate={handleUpdate} />
         ))}
         {!showForm && (
-          <button onClick={() => setShowForm(true)}
+          <Button variant="ghost" onClick={() => setShowForm(true)}
             className="flex items-center justify-center gap-1.5 h-28 rounded-lg border border-dashed text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors"
           >
             <Plus className="size-3.5" />
             <span className="text-xs">Add</span>
-          </button>
+          </Button>
         )}
       </div>
 

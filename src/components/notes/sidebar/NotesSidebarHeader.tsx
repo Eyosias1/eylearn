@@ -27,14 +27,24 @@ export function NotesSidebarHeader({ open, onToggle, onCreateFolder, onCreateNot
     )}>
       {open && (
         <>
-          <span className="text-base font-semibold">Notes</span>
+          <Link
+            href="/notes"
+            className={cn(
+              // spacing
+              "px-1.5",
+              // typography
+              "text-sm font-semibold",
+              // colors
+              "text-sidebar-foreground",
+              // animation
+              "transition-colors",
+              // hover
+              "hover:text-foreground",
+            )}
+          >
+            All notes
+          </Link>
           <div className="flex items-center gap-1">
-            <Link
-              href="/notes"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors px-1.5"
-            >
-              All notes
-            </Link>
             <Button variant="ghost" size="icon-xs" onClick={onCreateFolder} title="New folder">
               <FolderPlus className="size-4" />
             </Button>

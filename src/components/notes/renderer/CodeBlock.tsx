@@ -41,13 +41,14 @@ export function CodeBlock({ language, preHtml }: { language: string; preHtml: st
             {language}
           </span>
         </div>
-        <button
+        <Button
+          variant="ghost"
           type="button"
           onClick={() => void onCopy()}
-          className="flex cursor-pointer items-center gap-1.5 rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-white/10 hover:text-foreground"
+          className="flex cursor-pointer items-center gap-1.5 rounded-md p-1.5 h-auto text-muted-foreground transition-colors hover:bg-white/10 hover:text-foreground"
         >
           {copied ? <Check className="size-5 text-green-400" /> : <Copy className="size-5" />}
-        </button>
+        </Button>
       </div>
       <div
         className={cn('relative w-full overflow-x-auto', collapsible && !expanded && 'overflow-hidden')}

@@ -17,6 +17,7 @@ interface NotesSidebarNavProps {
   creatingRootNote: boolean
   setCreatingRootNote: (v: boolean) => void
   collapseSignal: number
+  revealedFolderId: string | null
   onCreateFolder: (name: string, parentId: string | null) => Promise<void>
   onCreateNote: (title: string, folderId: string | null) => Promise<void>
   onDeleteFolder: (id: string) => Promise<void>

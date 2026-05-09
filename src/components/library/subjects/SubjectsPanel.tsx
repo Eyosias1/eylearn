@@ -1,7 +1,7 @@
 "use client"
 
 import { MousePointerClick } from "lucide-react"
-import { SubtopicPanel } from "@/components/subtopics/subtopic-panel"
+import { SubtopicPanel } from "@/components/library/subjects/subtopic-panel"
 import { SubjectsManageView } from "@/components/library/subjects/SubjectsManageView"
 import { cn } from "@/lib/utils"
 import type { Subject } from "@/types/SubjectType"
@@ -33,7 +33,7 @@ export function SubjectsPanel({ mode, subtopic, topic, subject, subjects, topics
       // layout
       "flex flex-col items-center justify-center gap-3 shrink-0 text-center",
       // sizing
-      "w-72",
+      "w-82",
       // spacing
       "p-6",
       // border

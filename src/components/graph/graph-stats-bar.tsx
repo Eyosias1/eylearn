@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button"
 import type { GraphData, NodeHealth } from "@/types/graph"
 
 interface Props {
@@ -17,8 +18,9 @@ export function GraphStatsBar({ stats, filter, onFilter }: Props) {
   return (
     <div className="flex items-center gap-6 px-6 py-3 bg-background border-b border-border shrink-0">
       {ITEMS.map(({ health, label, color }) => (
-        <button
+        <Button
           key={health}
+          variant="ghost"
           onClick={() => onFilter(filter === health ? null : health)}
           className="flex items-center gap-2 text-sm transition-opacity cursor-pointer"
           style={{ opacity: filter && filter !== health ? 0.35 : 1 }}
@@ -26,7 +28,7 @@ export function GraphStatsBar({ stats, filter, onFilter }: Props) {
           <span className="size-2 rounded-full" style={{ backgroundColor: color }} />
           <span className="font-semibold" style={{ color }}>{stats[health]}</span>
           <span className="text-muted-foreground">{label}</span>
-        </button>
+        </Button>
       ))}
     </div>
   )

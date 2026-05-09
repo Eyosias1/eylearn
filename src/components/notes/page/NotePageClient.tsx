@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, useTransition } from 'react'
+import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import type { NoteRecord } from '@/types/NoteRecordType'
 import type { NoteChunk } from '@/types/NoteChunk'
@@ -63,18 +64,20 @@ export function NotePageClient({ note, serverContent, postSaveChunks, saveState,
   }
 
   const statusLabel = dirty ? 'Unsaved' : saveState === 'saved' ? 'Saved' : saveState === 'saving' ? 'Saving' : ''
-  const textareaClasses = cn("w-full resize-none overflow-hidden", "text-sm leading-relaxed", "font-[family-name:var(--font-mono)]", "bg-transparent text-foreground", "outline-none")
+  const textareaClasses = cn("w-full resize-none overflow-hidden", "text-sm leading-relaxed", "font-[family-name:var(--font-mono)]", "bg-transparent text-foreground", "outline-none border-none shadow-none focus-visible:ring-0")
 
   return (
     <>
+      <div className="sticky top-0 z-40 h-0 overflow-visible">
+        <NotePageActions dirty={dirty} isPending={isPending} raw={raw} statusLabel={statusLabel} onSave={handleSave} onTogglePreview={handleTogglePreview} />
+      </div>
       <div className="relative">
         {children}
-        <NotePageActions dirty={dirty} isPending={isPending} raw={raw} statusLabel={statusLabel} onSave={handleSave} onTogglePreview={handleTogglePreview} />
       </div>
 
       <div className="mt-10">
         {raw
-          ? <textarea ref={textareaRef} value={content} onChange={e => setContent(e.target.value)} className={textareaClasses} spellCheck={false} />
+          ? <Textarea ref={textareaRef} value={content} onChange={e => setContent(e.target.value)} className={textareaClasses} spellCheck={false} />
           : previewChunks
             ? <NoteRenderer chunks={previewChunks} />
             : postSaveChunks
@@ -82,14 +85,7 @@ export function NotePageClient({ note, serverContent, postSaveChunks, saveState,
               : serverContent
         }
       </div>
-      <div
-        className={cn(
-          // layout
-          "sticky bottom-2 z-30 flex translate-x-3 translate-y-2 justify-end",
-          // spacing
-          "mt-6",
-        )}
-      >
+      <div className="fixed bottom-6 right-8 z-30">
         <NoteMetricsBadge content={content} />
       </div>
     </>

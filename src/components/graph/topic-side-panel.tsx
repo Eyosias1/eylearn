@@ -71,9 +71,9 @@ export function TopicSidePanel({ node, graphNodes, graphEdges, onClose, onSelect
               <p className="font-semibold text-foreground leading-snug">{node.label}</p>
               <p className="text-xs text-muted-foreground capitalize">{node.nodeType}</p>
             </div>
-            <button onClick={onClose} className="mt-0.5 cursor-pointer text-muted-foreground transition-colors hover:text-foreground">
+            <Button variant="ghost" onClick={onClose} className="mt-0.5 cursor-pointer text-muted-foreground transition-colors hover:text-foreground">
               <X className="size-4" />
-            </button>
+            </Button>
           </div>
 
           <div className="flex flex-1 flex-col gap-5 overflow-y-auto p-5">
@@ -114,8 +114,9 @@ export function TopicSidePanel({ node, graphNodes, graphEdges, onClose, onSelect
               <Section title="Connected">
                 <div className="flex flex-col gap-1.5">
                   {neighbors.map(n => (
-                    <button
+                    <Button
                       key={n.id}
+                      variant="ghost"
                       onClick={() => onSelectNode(n.id)}
                       className="flex items-center justify-between gap-2 text-left text-sm text-muted-foreground transition-colors hover:text-foreground"
                     >
@@ -124,7 +125,7 @@ export function TopicSidePanel({ node, graphNodes, graphEdges, onClose, onSelect
                         <span className="text-[10px] text-muted-foreground capitalize">{n.type}</span>
                         <span className="size-2 rounded-full shrink-0" style={{ backgroundColor: n.color }} />
                       </span>
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </Section>

@@ -66,7 +66,7 @@ export function NotesFolderRow(props: NotesFolderRowProps) {
             if (event.key === 'Enter') { event.preventDefault(); commitName() }
             if (event.key === 'Escape') { event.preventDefault(); setDraftName(folder.name); setEditing(false) }
           }}
-          className="mx-1 h-11 min-w-0 flex-1 pl-8 text-base"
+          className="mx-1 h-10 min-w-0 flex-1 pl-8 text-sm"
         />
       ) : (
         <Button
@@ -84,11 +84,11 @@ export function NotesFolderRow(props: NotesFolderRowProps) {
           onDrop={onDrop}
           onClick={onToggle}
           className={cn(
-            "h-11 min-w-0 flex-1 justify-start gap-2.5 mx-1 p-2 text-base font-medium text-muted-foreground group-hover/folder:pr-32",
+            "h-10 min-w-0 flex-1 justify-start gap-2.5 mx-1 p-2 pr-32 text-sm font-medium text-muted-foreground",
             dragOver && "bg-accent text-accent-foreground",
           )}
         >
-          <ChevronRight className={cn("size-5 transition-transform", open && "rotate-90")} />
+          <ChevronRight className={cn("size-4 transition-transform", open && "rotate-90")} />
           <span className="w-6 shrink-0" />
           <span className="truncate">{folder.name}</span>
         </Button>

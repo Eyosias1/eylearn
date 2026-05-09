@@ -10,6 +10,7 @@ interface NotesFolderProps {
   node: NoteFolderNode
   activeSlug: string
   collapseSignal: number
+  revealedFolderId: string | null
   onCreateFolder: (name: string, parentId: string | null) => Promise<void>
   onCreateNote: (title: string, folderId: string | null) => Promise<void>
   onDeleteFolder: (id: string) => Promise<void>
@@ -22,8 +23,8 @@ interface NotesFolderProps {
   onMoveFolder: (id: string, parentId: string | null) => Promise<void>
 }
 export function NotesFolder(props: NotesFolderProps) {
-  const { node, activeSlug, onCreateFolder, onCreateNote, onDeleteFolder, onDeleteNote, onRenameNote, onChangeNoteEmoji, onRenameFolder, onChangeFolderEmoji, onMoveNote, onMoveFolder } = props
-  const [open, setOpen] = useState(false)
+  const { node, activeSlug, revealedFolderId, onCreateFolder, onCreateNote, onDeleteFolder, onDeleteNote, onRenameNote, onChangeNoteEmoji, onRenameFolder, onChangeFolderEmoji, onMoveNote, onMoveFolder } = props
+  const [open, setOpen] = useState(revealedFolderId === node.folder.id)
   const [creatingFolder, setCreatingFolder] = useState(false)
   const [creatingNote, setCreatingNote] = useState(false)
   const [dragOver, setDragOver] = useState(false)
