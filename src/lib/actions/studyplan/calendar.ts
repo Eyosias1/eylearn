@@ -4,6 +4,32 @@ import { revalidatePath } from "next/cache"
 import { getAuthenticatedSupabase } from "@/lib/supabase/auth"
 import type { CalendarEventInsert } from "@/types/studyplan"
 
+export async function createCalendarEvent(payload: {
+  title: string
+  scheduledDate: string
+  startTime: string
+  durationMinutes: number
+}): Promise<void> {
+  const { supabase, userId } = await getAuthenticatedSupabase()
+  const { error } = await supabase.from("calendar_events").insert({
+    user_id:          userId,
+    title:            payload.title,
+    scheduled_date:   payload.scheduledDate,
+    start_time:       payload.startTime,
+    duration_minutes: payload.durationMinutes,
+    source:           "manual",
+  })
+  if (error) throw new Error(error.message)
+  revalidatePath("/plan")
+}
+
+export async function deleteCalendarEvent(id: string): Promise<void> {
+  const { supabase } = await getAuthenticatedSupabase()
+  const { error } = await supabase.from("calendar_events").delete().eq("id", id)
+  if (error) throw new Error(error.message)
+  revalidatePath("/plan")
+}
+
 export async function updateCalendarEvent(
   id: string,
   payload: { title: string; startTime: string; durationMinutes: number; scheduledDate?: string }
@@ -19,7 +45,7 @@ export async function updateCalendarEvent(
     })
     .eq("id", id)
   if (error) throw new Error(error.message)
-  revalidatePath("/studyplan")
+  revalidatePath("/plan")
 }
 
 export async function importCalendarEvents(events: CalendarEventInsert[]): Promise<void> {
@@ -41,5 +67,5 @@ export async function importCalendarEvents(events: CalendarEventInsert[]): Promi
 
   if (error) throw new Error(error.message)
 
-  revalidatePath("/studyplan")
+  revalidatePath("/plan")
 }

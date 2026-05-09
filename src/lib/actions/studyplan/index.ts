@@ -14,6 +14,13 @@ export async function getSubtopicsByTopic(topicId: string): Promise<{ id: string
   return data ?? []
 }
 
+export async function deleteScheduledStudy(id: string): Promise<void> {
+  const { supabase } = await getAuthenticatedSupabase()
+  const { error } = await supabase.from("scheduled_study").delete().eq("id", id)
+  if (error) throw new Error(error.message)
+  revalidatePath("/plan")
+}
+
 export async function updateScheduledStudy(
   id: string,
   payload: {
@@ -36,5 +43,5 @@ export async function updateScheduledStudy(
     })
     .eq("id", id)
   if (error) throw new Error(error.message)
-  revalidatePath("/studyplan")
+  revalidatePath("/plan")
 }
