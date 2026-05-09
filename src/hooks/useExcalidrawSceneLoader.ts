@@ -2,9 +2,9 @@
 
 import { useEffect, type RefObject } from 'react'
 import { EMPTY_EXCALIDRAW_SCENE, type ExcalidrawSceneType } from '@/types/ExcalidrawSceneType'
-import { getSceneSignature, sanitizeSceneForStorage } from '@/lib/excalidraw/scene'
+import { getSceneSignature, sanitizeSceneForStorage } from '@/lib/whiteboard/scene'
 import type { DrawingSaveStatus } from '@/hooks/useExcalidrawDrawing'
-import type { DrawingStore } from '@/lib/excalidraw/store'
+import type { DrawingStore } from '@/lib/whiteboard/store'
 
 interface Args {
   clearTimers: () => void

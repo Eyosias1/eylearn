@@ -1,5 +1,5 @@
 import 'server-only'
-import { fetchGraphRawData } from '@/lib/data/graph'
+import { fetchGraphRawData } from '@/lib/graph/graph-fetch'
 import type { GraphData, GraphDataNode, GraphDataEdge, NodeHealth } from '@/types/graph'
 
 // Fixed color per node type — instantly identifies hierarchy level

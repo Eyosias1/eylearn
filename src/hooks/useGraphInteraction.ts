@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
-import { select, zoom, zoomIdentity, type ZoomTransform, type Simulation } from "d3"
+import { select, zoom, type ZoomTransform, type Simulation } from "d3"
 import { getConnected, hitTest } from "@/lib/graph/graph-interaction"
 import type { AdjacencyMap } from "@/lib/graph/graph-interaction"
 import type { D3SimNode, GraphNode } from "@/types/graph"

@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import * as z from "zod"
 
+import Link from "next/link"
 import { signIn } from "@/lib/actions/auth"
 import { Button } from "@/components/ui/button"
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
@@ -69,9 +70,9 @@ export function SignInForm({ className, ...props }: ComponentProps<"form">) {
             <Field data-invalid={fieldState.invalid}>
               <div className={cn("flex items-center")}>
                 <FieldLabel htmlFor="password">Password</FieldLabel>
-                <a href="/forgot" className={cn("ml-auto text-sm underline-offset-4 hover:underline")}>
+                <Link href="/forgot" className={cn("ml-auto text-sm underline-offset-4 hover:underline")}>
                   Forgot your password?
-                </a>
+                </Link>
               </div>
               <Input {...field} id="password" type="password" aria-invalid={fieldState.invalid} />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -87,7 +88,7 @@ export function SignInForm({ className, ...props }: ComponentProps<"form">) {
           </Button>
         </Field>
         <FieldDescription className={cn("text-center")}>
-          Don&apos;t have an account? <a href="/sign-up">Sign up</a>
+          Don&apos;t have an account? <Link href="/sign-up">Sign up</Link>
         </FieldDescription>
       </FieldGroup>
     </form>

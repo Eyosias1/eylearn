@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { TopicViewContent } from "@/components/plan/calendar/panels/topic-view-content"
 import { TopicEditForm } from "@/components/plan/calendar/panels/topic-edit-form"
-import { deleteScheduledStudy } from "@/lib/actions/studyplan"
+import { deleteScheduledStudy } from "@/lib/actions/plan"
 import type { PlanTopic } from "@/types/studyplan"
 
 interface Props {

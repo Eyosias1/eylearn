@@ -1,26 +1,26 @@
 "use client"
 
-import Link from "next/link"
+import { useState } from "react"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { Brain } from "lucide-react"
-import { navGroups } from "@/components/layout/nav-config"
+import { navItems } from "@/components/layout/nav-config"
 import { NavUser } from "@/components/layout/nav-user"
-import { Badge } from "@/components/ui/badge"
+import { SearchPalette } from "@/components/layout/search-palette"
+import { SidebarNavItem } from "@/components/layout/sidebar-nav-item"
+import { SidebarSearchButton } from "@/components/layout/sidebar-search-button"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { cn } from "@/lib/utils"
 
 export function AppSidebar() {
   const pathname = usePathname()
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [openNavItems, setOpenNavItems] = useState<Record<string, boolean>>({})
   const user = {
     name: "Eyosias",
     email: "eyosias16@gmail.com",
@@ -29,11 +29,21 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className=" py-5 border-b">
+      <SidebarHeader className="h-(--header-height) justify-center border-b">
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center size-8 bg-primary rounded-lg ">
-            <Brain className="size-4 text-primary-foreground" />
-          </div>
+          <Image
+            src="/eyLearnLogo.svg"
+            alt="EyLearn logo"
+            width={32}
+            height={30}
+            className={cn(
+              // sizing
+              "size-8 shrink-0",
+              // border
+              "rounded-lg",
+            )}
+            priority
+          />
           <div className="group-data-[collapsible=icon]:hidden">
             <p className="text-sm font-semibold leading-none">EyLearn</p>
             <p className="text-xs text-muted-foreground mt-0.5">Study smarter</p>
@@ -41,40 +51,41 @@ export function AppSidebar() {
         </div>
       </SidebarHeader>
 
-      <SidebarContent>
-        {navGroups.map((group) => (
-          <SidebarGroup key={group.title}>
-            <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {group.items.map((item) => {
-                  const Icon = item.icon
-                  const isActive = pathname === item.href
-                  return (
-                    <SidebarMenuItem key={item.href}>
-                      <SidebarMenuButton asChild isActive={isActive}>
-                        <Link href={item.href} className="flex items-center gap-3">
-                          <Icon className="size-4 shrink-0" />
-                          <span>{item.label}</span>
-                          {item.badge && (
-                            <Badge variant="secondary" className="ml-auto text-xs px-1.5 py-0">
-                              {item.badge}
-                            </Badge>
-                          )}
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  )
-                })}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+      <SidebarContent >
+        <SidebarMenu className="px-2 pt-2">
+          <SidebarSearchButton onClick={() => setSearchOpen(true)} />
+        </SidebarMenu>
+        <SidebarMenu className="gap-3 px-2 pt-2">
+          {navItems.map((item) => {
+            const isSectionActive = item.children?.some((child) => {
+              return pathname === child.href ||
+                pathname.startsWith(`${child.href}/`)
+            }) ?? pathname === item.href
+            const isOpen = openNavItems[item.href] ?? isSectionActive
+
+            return (
+              <SidebarNavItem
+                key={item.href}
+                item={item}
+                pathname={pathname}
+                isExactActive={pathname === item.href}
+                isSectionActive={isSectionActive}
+                isOpen={isOpen}
+                onOpenChange={(open) => setOpenNavItems((current) => ({
+                  ...current,
+                  [item.href]: open,
+                }))}
+              />
+            )
+          })}
+        </SidebarMenu>
       </SidebarContent>
 
       <SidebarFooter className="px-4 py-4 border-t">
         <NavUser user={user} />
       </SidebarFooter>
+
+      <SearchPalette open={searchOpen} onOpenChange={setSearchOpen} />
     </Sidebar>
   )
 }

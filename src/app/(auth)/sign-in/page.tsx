@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { GalleryVerticalEnd } from "lucide-react"
 
 import { SignInForm } from "@/components/auth/sign-in-form"
@@ -35,8 +36,8 @@ export default function SignInPage() {
             "md:justify-start",
           )}
         >
-          <a
-            href="#"
+          <Link
+            href="/"
             className={cn(
               // layout
               "flex items-center",
@@ -61,7 +62,7 @@ export default function SignInPage() {
               <GalleryVerticalEnd className="size-4" />
             </div>
             Acme Inc.
-          </a>
+          </Link>
         </div>
         <div
           className={cn(

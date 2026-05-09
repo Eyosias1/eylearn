@@ -1,5 +1,4 @@
 import {
-  Brain,
   BookOpen,
   BookMarked,
   BriefcaseBusiness,
@@ -19,7 +18,6 @@ export const navItems: NavItem[] = [
     icon: GraduationCap,
     children: [
       { label: "Dashboard",     href: "/dashboard", icon: LayoutDashboard },
-      { label: "Progress",      href: "/progress",  icon: Brain           },
       { label: "Study Session", href: "/session",   icon: BookOpen        },
       { label: "Plan",          href: "/plan", icon: CalendarDays    },
     ],
@@ -39,7 +37,6 @@ export const navItems: NavItem[] = [
 
 export const navSearchItems: NavItem[] = [
   { label: "Dashboard",       href: "/dashboard", icon: LayoutDashboard },
-  { label: "Progress",        href: "/progress",  icon: Brain           },
   { label: "Study Session",   href: "/session",   icon: BookOpen        },
   { label: "Plan",            href: "/plan", icon: CalendarDays    },
   { label: "Library",         href: "/library",   icon: BookMarked      },

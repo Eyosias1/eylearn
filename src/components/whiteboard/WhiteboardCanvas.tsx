@@ -2,9 +2,9 @@
 
 import dynamic from 'next/dynamic'
 import { useExcalidrawDrawing } from '@/hooks/useExcalidrawDrawing'
-import { supabaseDrawingStore } from '@/lib/excalidraw/supabase-store'
+import { supabaseDrawingStore } from '@/lib/whiteboard/supabase-store'
 import { cn } from '@/lib/utils'
-import type { DrawingStore } from '@/lib/excalidraw/store'
+import type { DrawingStore } from '@/lib/whiteboard/store'
 
 const Excalidraw = dynamic(
   async () => (await import('@excalidraw/excalidraw')).Excalidraw,

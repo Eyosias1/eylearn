@@ -2,10 +2,10 @@
 
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { encodeDrag, storeDragOffset } from "@/lib/studyplan/drag-time-utility"
+import { encodeDrag, storeDragOffset } from "@/lib/plan/drag-time-utility"
 import { useBlockResize } from "@/hooks/useBlockResize"
-import { updateScheduledStudy } from "@/lib/actions/studyplan"
-import type { BlockLayout } from "@/lib/studyplan/layout-blocks"
+import { updateScheduledStudy } from "@/lib/actions/plan"
+import type { BlockLayout } from "@/lib/plan/layout-blocks"
 import type { PlanTopic } from "@/types/studyplan"
 
 export const DAY_HOUR_PX = 80

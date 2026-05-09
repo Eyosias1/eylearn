@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { FieldDescription } from "@/components/ui/field"
 import { cn } from "@/lib/utils"
 
@@ -11,7 +12,7 @@ export function SignUpForm() {
         </p>
       </div>
       <FieldDescription className={cn("text-center")}>
-        Already have an account? <a href="/sign-in">Sign in</a>
+        Already have an account? <Link href="/sign-in">Sign in</Link>
       </FieldDescription>
     </div>
   )

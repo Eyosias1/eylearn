@@ -21,7 +21,6 @@ function init() {
     join(process.cwd(), 'node_modules/smiles-drawer/dist/smiles-drawer.js'),
     'utf-8',
   )
-  // eslint-disable-next-line no-new-func
   SD = new Function('window', 'document', `${bundleCode}\nreturn window.SmilesDrawer`)(
     { document: doc, devicePixelRatio: 1 },
     doc,

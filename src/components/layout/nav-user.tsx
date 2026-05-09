@@ -1,13 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import {
-  Bell,
-  CircleUserRound,
-  CreditCard,
-  LogOut,
-  MoreVertical,
-} from "lucide-react"
+import { Bell, CircleUserRound, CreditCard, LogOut, MoreVertical } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
@@ -18,12 +12,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
-} from "@/components/ui/sidebar"
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar"
+import { cn } from "@/lib/utils"
 
 interface User {
   name: string
@@ -40,8 +30,14 @@ export function NavUser({ user }: { user: User }) {
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton size="lg" className="data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground">
-              <Avatar className="rounded-lg grayscale">
+            <SidebarMenuButton
+              size="lg"
+              className={cn(
+                "h-14 cursor-pointer",
+                "data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground",
+              )}
+            >
+              <Avatar className="size-10 rounded-lg grayscale">
                 <AvatarImage src={user.avatar} alt={user.name} />
                 <AvatarFallback className="rounded-lg">{fallback}</AvatarFallback>
               </Avatar>
@@ -52,10 +48,10 @@ export function NavUser({ user }: { user: User }) {
               <MoreVertical className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="min-w-56 rounded-lg" side={isMobile ? "bottom" : "right"} align="end" sideOffset={4}>
+          <DropdownMenuContent className="min-w-64 rounded-lg p-1.5" side={isMobile ? "bottom" : "right"} align="end" sideOffset={6}>
             <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="rounded-lg">
+              <div className="flex items-center gap-3 px-1.5 py-2 text-left text-sm">
+                <Avatar className="size-10 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
                   <AvatarFallback className="rounded-lg">{fallback}</AvatarFallback>
                 </Avatar>
@@ -67,12 +63,27 @@ export function NavUser({ user }: { user: User }) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem asChild><Link href="/settings#profile"><CircleUserRound />Account</Link></DropdownMenuItem>
-              <DropdownMenuItem asChild><Link href="/settings#billing"><CreditCard />Billing</Link></DropdownMenuItem>
-              <DropdownMenuItem asChild><Link href="/settings#notifications"><Bell />Notifications</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild className="h-10 cursor-pointer">
+                <Link href="/settings/profile">
+                  <CircleUserRound />
+                  Account
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="h-10 cursor-pointer">
+                <Link href="/settings/billing">
+                  <CreditCard />
+                  Billing
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="h-10 cursor-pointer">
+                <Link href="/settings/notifications">
+                  <Bell />
+                  Notifications
+                </Link>
+              </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem><LogOut />Log out</DropdownMenuItem>
+            <DropdownMenuItem className="h-10 cursor-pointer"><LogOut />Log out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

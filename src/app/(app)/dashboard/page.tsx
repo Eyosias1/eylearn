@@ -1,24 +1,23 @@
 import {
   getDashboardStats,
   getNextSession,
-  getTodaySchedule,
-  getActiveSubjects,
   getConsistencyData,
-} from "@/lib/dashboard/dashboard"
-import { DailyTargets } from "@/components/dashboard/daily-targets"
-import { ConsistencyChart } from "@/components/dashboard/consistency-chart"
-import { NextSessionCard } from "@/components/dashboard/next-session-card"
-import { TodaySequence } from "@/components/dashboard/today-sequence"
-import { ActiveSubjectsGrid } from "@/components/dashboard/active-subjects-grid"
+} from "@/lib/mock/dashboard"
+import { getLeitnerCards, getAnalytics } from "@/lib/mock/progress"
 import { GlobalStatsBar } from "@/components/dashboard/global-stats-bar"
+import { NextSessionCard } from "@/components/dashboard/next-session-card"
+import { LeitnerBoard } from "@/components/dashboard/leitner-board"
+import { ConsistencyChart } from "@/components/dashboard/consistency-chart"
+import { MasteryHeatmap } from "@/components/dashboard/mastery-heatmap"
+import { TechniqueEfficiencyCard } from "@/components/dashboard/technique-efficiency-card"
 
 export default async function DashboardPage() {
-  const [stats, nextSession, todaySchedule, subjects, consistencyData] = await Promise.all([
+  const [stats, nextSession, consistencyData, leitnerCards, analytics] = await Promise.all([
     getDashboardStats(),
     getNextSession(),
-    getTodaySchedule(),
-    getActiveSubjects(),
     getConsistencyData(),
+    getLeitnerCards(),
+    getAnalytics(),
   ])
 
   return (
@@ -30,19 +29,23 @@ export default async function DashboardPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <div className="flex flex-col gap-4 lg:col-span-2">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <DailyTargets stats={stats} />
-            <ConsistencyChart data={consistencyData} />
-          </div>
-          <TodaySequence sessions={todaySchedule} />
+      <GlobalStatsBar stats={stats} />
+
+      <NextSessionCard session={nextSession} />
+
+      <LeitnerBoard cards={leitnerCards} />
+
+      <ConsistencyChart data={consistencyData} />
+
+      <div className="rounded-xl border p-5 flex flex-col gap-4">
+        <div>
+          <p className="text-sm font-semibold">Mastery Heatmap</p>
+          <p className="text-xs text-muted-foreground">Study intensity × success rate (past 12 months)</p>
         </div>
-        <NextSessionCard session={nextSession} />
+        <MasteryHeatmap data={analytics.heatmap} />
       </div>
 
-      <ActiveSubjectsGrid subjects={subjects} />
-      <GlobalStatsBar stats={stats} />
+      <TechniqueEfficiencyCard data={analytics.techniqueEfficiency} insight={analytics.aiInsight} />
     </div>
   )
 }

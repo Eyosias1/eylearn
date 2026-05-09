@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { computeSessionAggregates } from "@/lib/session-history/aggregates"
+import { computeSessionAggregates } from "@/lib/plan/session-history/aggregates"
 import { saveReviewSession } from "@/lib/actions/study-session/review-sessions"
 import type { ImmediateReviewSession } from "@/types/ImmediateReviewType"
 import type { GradeData } from "@/hooks/useSessionGrading"

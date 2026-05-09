@@ -6,7 +6,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --header-height: 4.5rem;
+  --header-height: 5rem;
 }
 
 @theme inline {
@@ -87,6 +87,9 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* Table row theming */
+  thead tr { background-color: oklch(0.95 0 0); }
+  tr[data-selected="true"] { background-color: oklch(0.91 0 0); }
 }
 
 .dark {
@@ -115,13 +118,17 @@
   --chart-5: oklch(0.269 0 0);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.985 0 0);
+  --sidebar-primary-foreground: oklch(0.205 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  thead tr { background-color: oklch(0.20 0 0); }
+  tr[data-selected="true"] { background-color: oklch(0.26 0 0); }
 }
+
 
 
 /* rehype-pretty-code dual theme switching via CSS variables */

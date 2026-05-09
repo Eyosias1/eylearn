@@ -101,7 +101,7 @@ export async function addQuestionsToSet(setId: string, questionIds: string[]): P
   }
 }
 
-export async function removeQuestionFromSet(questionId: string, setId: string): Promise<void> {
+export async function removeQuestionFromSet(questionId: string, _setId: string): Promise<void> {
   const { supabase } = await getAuthenticatedSupabase()
   const { error } = await supabase
     .from("questions")

@@ -1,8 +1,8 @@
 "use client"
 
 import { useRef, useState } from "react"
-import { layoutBlocks } from "@/lib/studyplan/layout-blocks"
-import { decodeDrag, snapMinutes, snapIndicatorTop, minutesToTime } from "@/lib/studyplan/drag-time-utility"
+import { layoutBlocks } from "@/lib/plan/layout-blocks"
+import { decodeDrag, snapMinutes, snapIndicatorTop, minutesToTime } from "@/lib/plan/drag-time-utility"
 import { CalendarEventBlock } from "@/components/plan/calendar/blocks/calendar-event-block"
 import { WeekTopicBlock, WEEK_HOUR_PX } from "@/components/plan/calendar/blocks/week-topic-block"
 import type { CalendarEvent, PlanTopic } from "@/types/studyplan"

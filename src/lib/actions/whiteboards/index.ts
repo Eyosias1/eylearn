@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { EMPTY_EXCALIDRAW_SCENE, type ExcalidrawSceneType } from '@/types/ExcalidrawSceneType'
-import { buildWhiteboardPreview, getEmptyWhiteboardPreview } from '@/lib/excalidraw/preview'
+import { buildWhiteboardPreview, getEmptyWhiteboardPreview } from '@/lib/whiteboard/preview'
 import { getAuthenticatedSupabase } from '@/lib/supabase/auth'
 import { toWhiteboardMeta } from '@/lib/whiteboards/shape'
 import type { Json, Tables } from '@/types/database.types'

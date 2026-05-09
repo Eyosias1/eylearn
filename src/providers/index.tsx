@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { ThemeProvider } from '@/providers/theme-provider'
-import { getAuthContext } from '@/lib/data/profile'
+import { getAuthContext } from '@/lib/supabase/profile'
 import { AssistantProvider } from '@/providers/assistant-provider'
 import { AuthProvider } from '@/providers/auth-provider'
 import { BreadcrumbProvider } from '@/providers/breadcrumb-provider'

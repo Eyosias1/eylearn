@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { getSubjects } from "@/lib/actions/subjects"
 import { getTopics } from "@/lib/actions/topics"
-import { getSubtopicsByTopic } from "@/lib/actions/studyplan"
+import { getSubtopicsByTopic } from "@/lib/actions/plan"
 import type { Subject } from "@/types/SubjectType"
 import type { Topic } from "@/types/TopicType"
 
@@ -40,12 +40,12 @@ export function useSubjectTopicChain(init: Init) {
   useEffect(() => { getSubjects().then(setSubjects) }, [])
 
   useEffect(() => {
-    if (!subjectId) { setTopics([]); return }
+    if (!subjectId) return
     getTopics(subjectId).then(setTopics)
   }, [subjectId])
 
   useEffect(() => {
-    if (!topicId) { setSubtopics([]); return }
+    if (!topicId) return
     getSubtopicsByTopic(topicId).then(setSubtopics)
   }, [topicId])
 
@@ -53,11 +53,14 @@ export function useSubjectTopicChain(init: Init) {
     setSubjectId(id)
     setTopicId("")
     setSubtopicId("")
+    setTopics([])
+    setSubtopics([])
   }
 
   function selectTopic(id: string) {
     setTopicId(id)
     setSubtopicId("")
+    setSubtopics([])
   }
 
   return {

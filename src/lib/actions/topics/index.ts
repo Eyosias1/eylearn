@@ -32,14 +32,14 @@ export async function createTopic(subjectId: string, name: string): Promise<void
   revalidatePath("/library")
 }
 
-export async function updateTopic(id: string, name: string, subjectId: string): Promise<void> {
+export async function updateTopic(id: string, name: string, _subjectId: string): Promise<void> {
   const { supabase } = await getAuthenticatedSupabase()
   const { error } = await supabase.from("topics").update({ name }).eq("id", id)
   if (error) throw new Error(error.message)
   revalidatePath("/library")
 }
 
-export async function deleteTopic(id: string, subjectId: string): Promise<void> {
+export async function deleteTopic(id: string, _subjectId: string): Promise<void> {
   const { supabase } = await getAuthenticatedSupabase()
   const { error } = await supabase.from("topics").delete().eq("id", id)
   if (error) throw new Error(error.message)

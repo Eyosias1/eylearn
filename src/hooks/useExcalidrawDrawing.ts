@@ -3,10 +3,10 @@
 import { useCallback, useRef, useState } from 'react'
 import type { AppState, BinaryFiles, ExcalidrawProps } from '@excalidraw/excalidraw/types'
 import { EMPTY_EXCALIDRAW_SCENE, type ExcalidrawSceneType } from '@/types/ExcalidrawSceneType'
-import { createScene, getSceneSignature, sanitizeSceneForStorage } from '@/lib/excalidraw/scene'
+import { createScene, getSceneSignature, sanitizeSceneForStorage } from '@/lib/whiteboard/scene'
 import { useExcalidrawSceneLoader } from '@/hooks/useExcalidrawSceneLoader'
 import { useExcalidrawSaveTimers } from '@/hooks/useExcalidrawSaveTimers'
-import type { DrawingStore } from '@/lib/excalidraw/store'
+import type { DrawingStore } from '@/lib/whiteboard/store'
 
 const AUTOSAVE_DELAY_MS = 800
 const SAVED_RESET_DELAY_MS = 1500

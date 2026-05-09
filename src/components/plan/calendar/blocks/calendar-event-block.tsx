@@ -1,10 +1,10 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { encodeDrag, storeDragOffset } from "@/lib/studyplan/drag-time-utility"
+import { encodeDrag, storeDragOffset } from "@/lib/plan/drag-time-utility"
 import { useBlockResize } from "@/hooks/useBlockResize"
-import { updateCalendarEvent } from "@/lib/actions/studyplan/calendar"
-import type { BlockLayout } from "@/lib/studyplan/layout-blocks"
+import { updateCalendarEvent } from "@/lib/actions/plan/calendar"
+import type { BlockLayout } from "@/lib/plan/layout-blocks"
 import type { CalendarEvent } from "@/types/studyplan"
 
 function timeToMinutes(time: string) {

@@ -17,7 +17,7 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "eyLearn",
+  title: "EyLearn",
   description: "Study smarter, not harder",
 };
 

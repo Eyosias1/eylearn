@@ -1,18 +1,22 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef } from "react"
 
 export function useBlockResize(
   initialDuration: number,
   hourPx: number,
   onCommit: (newDuration: number) => void,
 ) {
+  const [prevInitial, setPrevInitial] = useState(initialDuration)
   const [duration,    setDuration]    = useState(initialDuration)
   const startYRef     = useRef(0)
   const startDurRef   = useRef(initialDuration)
   const currentDurRef = useRef(initialDuration)
 
-  useEffect(() => { setDuration(initialDuration) }, [initialDuration])
+  if (prevInitial !== initialDuration) {
+    setPrevInitial(initialDuration)
+    setDuration(initialDuration)
+  }
 
   function onMouseDown(e: React.MouseEvent) {
     e.stopPropagation()
