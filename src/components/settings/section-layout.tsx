@@ -9,11 +9,10 @@ interface Block {
 
 export function SectionLayout({
   title,
-  description,
   blocks,
 }: {
   title: string
-  description: string
+  description?: string
   blocks: Block[]
 }) {
   return (

@@ -1,10 +1,12 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
+import Image from "next/image"
 import { ImagePlus, Trash2, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
-import { uploadQuestionImage, deleteQuestionImage } from "@/lib/questions/upload-image"
+import { uploadQuestionImage, deleteQuestionImage, getSignedImageUrl } from "@/lib/questions/upload-image"
 
 type Props = {
   value: string | null
@@ -12,9 +14,20 @@ type Props = {
 }
 
 export function QuestionImageUpload({ value, onChange }: Props) {
-  const [uploading, setUploading] = useState(false)
-  const [error, setError]         = useState<string | null>(null)
+  const [uploading, setUploading]   = useState(false)
+  const [error, setError]           = useState<string | null>(null)
+  const [signedUrl, setSignedUrl]   = useState<string | null>(null)
+  const [resolving, setResolving]   = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (!value) { setSignedUrl(null); return }
+    setResolving(true)
+    getSignedImageUrl(value).then((url) => {
+      setSignedUrl(url)
+      setResolving(false)
+    })
+  }, [value])
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
@@ -32,30 +45,47 @@ export function QuestionImageUpload({ value, onChange }: Props) {
     }
   }
 
-  if (value) {
-  }
-
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center gap-2">
         <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Image</p>
         {!value && <span className="text-xs text-muted-foreground/60">(optional)</span>}
       </div>
-      <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
+      <Input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
       {value && (
-        <div className="relative rounded-lg overflow-hidden border bg-muted/30">
-          <img src={value} alt="Question" className="w-full object-contain max-h-56" />
-          <Button
-            type="button" variant="secondary" size="icon"
-            onClick={() => { deleteQuestionImage(value); onChange(null) }}
-            className="absolute top-2 right-2  shadow-sm hover:bg-destructive hover:text-white transition-colors"
-          >
-            <Trash2 className="size-5" />
-          </Button>
+        <div className="relative rounded-lg overflow-hidden border bg-muted/30 min-h-24">
+          {resolving && (
+            <div className="flex items-center justify-center w-full min-h-24">
+              <Loader2 className="size-5 animate-spin text-muted-foreground" />
+            </div>
+          )}
+          {signedUrl && <Image src={signedUrl} alt="Question" width={800} height={224} unoptimized className="w-full object-contain max-h-56" />}
+          {!resolving && !signedUrl && (
+            <div className="flex flex-col items-center justify-center gap-2 w-full min-h-24">
+              <p className="text-xs text-muted-foreground">Image not found</p>
+              <Button
+                type="button" variant="outline" size="sm"
+                onClick={() => { onChange(null); inputRef.current?.click() }}
+              >
+                <ImagePlus className="size-3.5" />
+                Replace
+              </Button>
+            </div>
+          )}
+          {!resolving && signedUrl && (
+            <Button
+              type="button" variant="secondary" size="icon"
+              onClick={() => { deleteQuestionImage(value); onChange(null) }}
+              className="absolute top-2 right-2 shadow-sm hover:bg-destructive hover:text-white transition-colors"
+            >
+              <Trash2 className="size-5" />
+            </Button>
+          )}
         </div>
       )}
-      {!value && <button
+      {!value && <Button
         type="button"
+        variant="outline"
         onClick={() => inputRef.current?.click()}
         disabled={uploading}
         className={cn(
@@ -83,7 +113,7 @@ export function QuestionImageUpload({ value, onChange }: Props) {
           {uploading ? "Uploading..." : "Click to upload an image"}
         </span>
         {!uploading && <span className="text-xs opacity-60">PNG, JPG, WEBP</span>}
-      </button>}
+      </Button>}
       {error && <p className="text-xs text-destructive">{error}</p>}
     </div>
   )

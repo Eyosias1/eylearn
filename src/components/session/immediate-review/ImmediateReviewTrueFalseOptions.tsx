@@ -1,5 +1,6 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 
@@ -54,9 +55,10 @@ export function ImmediateReviewTrueFalseOptions({ selected, onSelect, disabled, 
           const isWrong    = disabled && isSelected && value !== correctVerdict
 
           return (
-            <button
+            <Button
               key={value}
               type="button"
+              variant="outline"
               disabled={disabled}
               onClick={() => handleVerdict(value)}
               className={cn(
@@ -78,7 +80,7 @@ export function ImmediateReviewTrueFalseOptions({ selected, onSelect, disabled, 
               )}
             >
               {value}
-            </button>
+            </Button>
           )
         })}
       </div>

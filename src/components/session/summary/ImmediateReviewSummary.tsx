@@ -22,7 +22,6 @@ export function ImmediateReviewSummary({ session }: Props) {
   const router = useRouter()
   const { results, questions, round2Results, elapsedSeconds } = session
 
-  const allResults = [...results, ...round2Results]
   const { grades, round1Grades, round2Grades, loading } = useSessionGrading(results, round2Results, questions)
   const { error: saveError } = useSaveReviewSession(session, round1Grades, round2Grades, loading)
 

@@ -92,11 +92,13 @@ export function useImmediateReviewSession(questions: Question[], durationMinutes
       const newResults = [...results, result]; setResults(newResults); reset()
       if (next >= questions.length) {
         const weakQs = questions.filter(q => newResults.some(r => r.questionId === q.id && r.selfRating !== "correct")).sort(() => Math.random() - 0.5)
-        !enableRound2 || weakQs.length === 0 ? setStage("summary") : (setRound2Questions(weakQs), setStage("between-rounds"))
+        if (!enableRound2 || weakQs.length === 0) setStage("summary")
+        else { setRound2Questions(weakQs); setStage("between-rounds") }
       } else setCurrentIndex(next)
     } else {
       setRound2Results(prev => [...prev, result]); reset()
-      next >= round2Questions.length ? setStage("summary") : setCurrentIndex(next)
+      if (next >= round2Questions.length) setStage("summary")
+      else setCurrentIndex(next)
     }
   }, [round, currentIndex, questions, round2Questions, results, enableRound2])
 

@@ -1,5 +1,6 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import type { McqOption } from "@/types/QuestionType"
 
@@ -21,9 +22,10 @@ export function ImmediateReviewMcqOptions({ options, selected, onSelect, disable
         const isWrong    = disabled && isSelected && value !== correctAnswer
 
         return (
-          <button
+          <Button
             key={option.label}
             type="button"
+            variant="outline"
             disabled={disabled}
             onClick={() => onSelect(value)}
             className={cn(
@@ -58,7 +60,7 @@ export function ImmediateReviewMcqOptions({ options, selected, onSelect, disable
             )}>
               {option.text}
             </span>
-          </button>
+          </Button>
         )
       })}
     </div>

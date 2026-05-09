@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 
@@ -52,15 +53,16 @@ export function TrueFalseAnswerSection({ value, onChange }: Props) {
           {OPTIONS.map(({ value: v, text, activeBg, activeBorder, hoverBg, baseBg }) => {
             const isSelected = verdict === v
             return (
-              <button
+              <Button
                 key={v}
                 type="button"
+                variant="outline"
                 onClick={() => handleVerdict(v)}
                 className={cn(
                   // layout
                   "flex items-center justify-center",
                   // sizing
-                  "h-12",
+                  "h-12 w-full",
                   // border
                   "rounded-xl border-2",
                   // typography
@@ -76,7 +78,7 @@ export function TrueFalseAnswerSection({ value, onChange }: Props) {
                 )}
               >
                 {v}
-              </button>
+              </Button>
             )
           })}
         </div>
