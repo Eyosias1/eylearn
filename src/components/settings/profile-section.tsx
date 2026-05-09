@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { SectionLayout, SettingRow } from "./section-layout"
+import { SectionLayout } from "./section-layout"
 
 export function ProfileSection() {
   const [name, setName] = useState("Eyosias Tefera")
@@ -23,7 +23,7 @@ export function ProfileSection() {
   return (
     <SectionLayout
       title="Profile"
-      description="Your name, photo, and primary exam goal."
+      description="Your name, photo, and account details."
       blocks={[
         {
           title: "Profile photo",
@@ -95,27 +95,6 @@ export function ProfileSection() {
                 <Button size="sm">Save changes</Button>
               </div>
             </div>
-          ),
-        },
-        {
-          title: "Study goal",
-          description: "Used to tailor daily due lists and session pacing.",
-          children: (
-            <>
-              <SettingRow
-                label="Primary exam"
-                description="Appears as a countdown on your dashboard."
-              >
-                <Input className="w-52" defaultValue="USMLE Step 1" />
-              </SettingRow>
-              <div className="h-px bg-border" />
-              <SettingRow
-                label="Exam date"
-                description="Determines suggested review intensity."
-              >
-                <Input type="date" defaultValue="2026-07-15" className="w-44" />
-              </SettingRow>
-            </>
           ),
         },
         {

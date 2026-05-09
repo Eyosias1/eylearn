@@ -18,25 +18,15 @@ export function SectionLayout({
 }) {
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-1">
-        <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
-        {description && (
-          <p className="text-sm text-muted-foreground">{description}</p>
-        )}
-      </div>
+      <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
       <div className="flex flex-col gap-8">
         {blocks.map((block, i) => (
           <div
             key={i}
             className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-4 lg:gap-8"
           >
-            <div className="flex flex-col gap-1">
+            <div>
               <p className="text-sm font-semibold text-foreground">{block.title}</p>
-              {block.description && (
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  {block.description}
-                </p>
-              )}
             </div>
             <Card>
               <CardContent className="py-1">{block.children}</CardContent>
