@@ -2,7 +2,7 @@
 
 import { useSyncExternalStore } from 'react'
 import { createPortal } from 'react-dom'
-import { NotesSidebarShell } from '@/components/notes/sidebar/NotesSidebarShell'
+import { LibrarySidebarShell } from '@/components/library/LibrarySidebarShell'
 
 function subscribe(onStoreChange: () => void) {
   const timeout = window.setTimeout(onStoreChange, 0)
@@ -10,17 +10,17 @@ function subscribe(onStoreChange: () => void) {
 }
 
 function getSlot() {
-  return document.getElementById('notes-sidebar-slot')
+  return document.getElementById('library-sidebar-slot')
 }
 
 function getServerSlot() {
   return null
 }
 
-export function NotesSidebarPortal() {
+export function LibrarySidebarPortal() {
   const slot = useSyncExternalStore(subscribe, getSlot, getServerSlot)
 
   if (!slot) return null
 
-  return createPortal(<NotesSidebarShell />, slot)
+  return createPortal(<LibrarySidebarShell />, slot)
 }

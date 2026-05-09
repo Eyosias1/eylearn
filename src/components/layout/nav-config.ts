@@ -1,24 +1,49 @@
 import {
-  LayoutDashboard,
   Brain,
-  Network,
   BookOpen,
-  CalendarDays,
-  Settings,
-  FileText,
-  Pencil,
   BookMarked,
+  BriefcaseBusiness,
+  CalendarDays,
+  GraduationCap,
+  LayoutDashboard,
+  Network,
+  Pencil,
+  Settings,
 } from "lucide-react"
 import { NavItem } from "@/types/nav"
 
 export const navItems: NavItem[] = [
-  { label: "Dashboard",       href: "/dashboard",  icon: LayoutDashboard },
-  { label: "Study Plan",      href: "/studyplan",  icon: CalendarDays    },
-  { label: "Notes",           href: "/notes",      icon: FileText        },
-  { label: "Library",         href: "/library",    icon: BookMarked      },
-  { label: "Study Session",   href: "/session",    icon: BookOpen        },
-  { label: "Whiteboard",      href: "/whiteboard", icon: Pencil          },
-  { label: "Progress",        href: "/progress",   icon: Brain           },
-  { label: "Knowledge Graph", href: "/graph",      icon: Network         },
-  { label: "Settings",        href: "/settings",   icon: Settings        },
+  {
+    label: "Learn",
+    href: "#learn",
+    icon: GraduationCap,
+    children: [
+      { label: "Dashboard",     href: "/dashboard", icon: LayoutDashboard },
+      { label: "Progress",      href: "/progress",  icon: Brain           },
+      { label: "Study Session", href: "/session",   icon: BookOpen        },
+      { label: "Plan",          href: "/plan", icon: CalendarDays    },
+    ],
+  },
+  {
+    label: "Workspace",
+    href: "#workspace",
+    icon: BriefcaseBusiness,
+    children: [
+      { label: "Library",         href: "/library",    icon: BookMarked },
+      { label: "Knowledge Graph", href: "/graph",      icon: Network    },
+      { label: "Whiteboard",      href: "/whiteboard", icon: Pencil     },
+    ],
+  },
+  { label: "Settings", href: "/settings", icon: Settings },
+]
+
+export const navSearchItems: NavItem[] = [
+  { label: "Dashboard",       href: "/dashboard", icon: LayoutDashboard },
+  { label: "Progress",        href: "/progress",  icon: Brain           },
+  { label: "Study Session",   href: "/session",   icon: BookOpen        },
+  { label: "Plan",            href: "/plan", icon: CalendarDays    },
+  { label: "Library",         href: "/library",   icon: BookMarked      },
+  { label: "Knowledge Graph", href: "/graph",     icon: Network         },
+  { label: "Whiteboard",      href: "/whiteboard",icon: Pencil          },
+  { label: "Settings",        href: "/settings",  icon: Settings        },
 ]
