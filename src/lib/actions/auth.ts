@@ -18,3 +18,10 @@ export async function signIn(data: { email: string; password: string }) {
   revalidatePath("/", "layout")
   redirect("/")
 }
+
+export async function signOut() {
+  const supabase = createClient(await cookies())
+  await supabase.auth.signOut()
+  revalidatePath("/", "layout")
+  redirect("/")
+}

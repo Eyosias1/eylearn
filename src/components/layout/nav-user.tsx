@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { Bell, CircleUserRound, CreditCard, LogOut, MoreVertical } from "lucide-react"
+import { signOut } from "@/lib/actions/auth"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
@@ -83,7 +84,10 @@ export function NavUser({ user }: { user: User }) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="h-10 cursor-pointer"><LogOut />Log out</DropdownMenuItem>
+            <DropdownMenuItem className="h-10 cursor-pointer" onClick={() => signOut()}>
+              <LogOut />
+              Log out
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
