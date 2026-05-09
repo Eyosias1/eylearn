@@ -14,20 +14,22 @@ type Props = {
 }
 
 export function QuestionImageUpload({ value, onChange }: Props) {
-  const [uploading, setUploading]   = useState(false)
-  const [error, setError]           = useState<string | null>(null)
-  const [signedUrl, setSignedUrl]   = useState<string | null>(null)
-  const [resolving, setResolving]   = useState(false)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const [uploading, setUploading] = useState(false)
+  const [error, setError]         = useState<string | null>(null)
+  const [imgState, setImgState]   = useState<{ url: string | null; resolvedFor: string | null }>({ url: null, resolvedFor: null })
+  const inputRef                  = useRef<HTMLInputElement>(null)
+
+  // Both fields updated together in the async callback — no synchronous setState in effects.
+  const resolving = value !== null && imgState.resolvedFor !== value
 
   useEffect(() => {
-    if (!value) { setSignedUrl(null); return }
-    setResolving(true)
+    if (!value) return
     getSignedImageUrl(value).then((url) => {
-      setSignedUrl(url)
-      setResolving(false)
+      setImgState({ url, resolvedFor: value })
     })
   }, [value])
+
+  const signedUrl = imgState.url
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
