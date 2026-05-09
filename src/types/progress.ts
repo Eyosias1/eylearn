@@ -19,11 +19,17 @@ export type LeitnerCard = {
 }
 
 export type RetroTopic = {
-  topic: string
-  subject: string
+  subtopic:   string
+  topic:      string
+  subject:    string
+  box:        1 | 2 | 3 | 4 | 5
+  lastReview: string
   sessions: {
-    date: string
-    rating: "strong" | "partial" | "poor" | null
+    date:       string
+    rating:     "strong" | "partial" | "poor" | null
+    mode?:      string
+    duration?:  number
+    confidence?: number
   }[]
 }
 
@@ -63,6 +69,21 @@ export type AnalyticsData = {
     theoretical: { day: number; retention: number }[]
     actual: { day: number; retention: number }[]
   }
-  techniqueEfficiency: { mode: string; masteryGainPerHour: number }[]
+  techniqueEfficiency: {
+    mode: string
+    masteryGainPerHour: number
+    usagePercent: number
+    trend: "up" | "down" | "flat"
+    bySubject: {
+      subject: string
+      score: number
+      topics: {
+        topic: string
+        score: number
+        subtopics: { subtopic: string; score: number }[]
+      }[]
+    }[]
+    history: { week: string; score: number }[]
+  }[]
   aiInsight: string
 }

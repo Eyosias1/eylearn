@@ -6,6 +6,8 @@ export const QUESTION_TYPES = [
 
 export type QuestionType = typeof QUESTION_TYPES[number]["value"]
 
+export type McqOption = { label: string; text: string }
+
 export type Question = {
   id: string
   user_id: string
@@ -16,5 +18,7 @@ export type Question = {
   body: string
   type: QuestionType
   correct_answer: string
+  options: McqOption[] | null
+  image_url: string | null
   created_at: string | null
 }

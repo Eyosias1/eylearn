@@ -228,6 +228,164 @@ export type Database = {
         }
         Relationships: []
       }
+      question_sets: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          subject_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          subject_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          subject_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_sets_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      questions: {
+        Row: {
+          body: string
+          correct_answer: string
+          created_at: string | null
+          id: string
+          image_url: string | null
+          options: Json | null
+          position: number | null
+          set_id: string | null
+          subtopic_id: string | null
+          topic_id: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          body: string
+          correct_answer: string
+          created_at?: string | null
+          id?: string
+          image_url?: string | null
+          options?: Json | null
+          position?: number | null
+          set_id?: string | null
+          subtopic_id?: string | null
+          topic_id: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          correct_answer?: string
+          created_at?: string | null
+          id?: string
+          image_url?: string | null
+          options?: Json | null
+          position?: number | null
+          set_id?: string | null
+          subtopic_id?: string | null
+          topic_id?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "questions_set_id_fkey"
+            columns: ["set_id"]
+            isOneToOne: false
+            referencedRelation: "question_sets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "questions_subtopic_id_fkey"
+            columns: ["subtopic_id"]
+            isOneToOne: false
+            referencedRelation: "subtopics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "questions_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      review_sessions: {
+        Row: {
+          actual_duration_minutes: number | null
+          ai_verified_score: number | null
+          date: string
+          id: string
+          mode: string
+          overall_rating: string | null
+          round1_avg_confidence: number | null
+          round1_score: number | null
+          round2_score: number | null
+          scheduled_duration_minutes: number
+          started_at: string
+          subtopic_id: string
+          user_id: string
+        }
+        Insert: {
+          actual_duration_minutes?: number | null
+          ai_verified_score?: number | null
+          date: string
+          id?: string
+          mode: string
+          overall_rating?: string | null
+          round1_avg_confidence?: number | null
+          round1_score?: number | null
+          round2_score?: number | null
+          scheduled_duration_minutes: number
+          started_at?: string
+          subtopic_id: string
+          user_id: string
+        }
+        Update: {
+          actual_duration_minutes?: number | null
+          ai_verified_score?: number | null
+          date?: string
+          id?: string
+          mode?: string
+          overall_rating?: string | null
+          round1_avg_confidence?: number | null
+          round1_score?: number | null
+          round2_score?: number | null
+          scheduled_duration_minutes?: number
+          started_at?: string
+          subtopic_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "review_sessions_subtopic_id_fkey"
+            columns: ["subtopic_id"]
+            isOneToOne: false
+            referencedRelation: "subtopics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       scheduled_study: {
         Row: {
           created_at: string | null
@@ -265,6 +423,54 @@ export type Database = {
             columns: ["subtopic_id"]
             isOneToOne: false
             referencedRelation: "subtopics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      session_question_responses: {
+        Row: {
+          ai_feedback: string | null
+          ai_score: number | null
+          id: string
+          pre_confidence: string | null
+          question_id: string
+          round: number
+          self_rating: string | null
+          session_id: string
+        }
+        Insert: {
+          ai_feedback?: string | null
+          ai_score?: number | null
+          id?: string
+          pre_confidence?: string | null
+          question_id: string
+          round: number
+          self_rating?: string | null
+          session_id: string
+        }
+        Update: {
+          ai_feedback?: string | null
+          ai_score?: number | null
+          id?: string
+          pre_confidence?: string | null
+          question_id?: string
+          round?: number
+          self_rating?: string | null
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_question_responses_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_question_responses_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "review_sessions"
             referencedColumns: ["id"]
           },
         ]
