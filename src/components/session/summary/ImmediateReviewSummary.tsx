@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { ImmediateReviewStatCard } from "@/components/session/summary/ImmediateReviewStatCard"
-import { ImmediateReviewFeedbackRow } from "@/components/session/summary/ImmediateReviewFeedbackRow"
+import { ImmediateReviewQuestionReview } from "@/components/session/summary/ImmediateReviewQuestionReview"
 import { ImmediateReviewCalibrationCard } from "@/components/session/summary/ImmediateReviewCalibrationCard"
 import { useSessionGrading } from "@/hooks/useSessionGrading"
 import { useSaveReviewSession } from "@/hooks/useSaveReviewSession"
@@ -29,7 +29,7 @@ export function ImmediateReviewSummary({ session }: Props) {
   const gotIt   = results.filter(r => r.selfRating === "correct").length
   const partial = results.filter(r => r.selfRating === "partial").length
   const missed  = results.filter(r => r.selfRating === "missed").length
-  const skipped = questions.length - results.length
+  const skipped = results.filter(r => r.selfRating === "skipped").length
 
   const improved       = round2Results.filter(r => r.selfRating === "correct").length
   const stillWeak      = round2Results.filter(r => r.selfRating !== "correct").length
@@ -78,18 +78,13 @@ export function ImmediateReviewSummary({ session }: Props) {
         </div>
       </div>
 
-      <div className="w-full flex flex-col gap-3">
-        <p className="text-xl font-bold uppercase ">Question Review</p>
-        {allResults.map((result, i) => (
-          <ImmediateReviewFeedbackRow
-            key={i}
-            result={result}
-            question={questions.find(q => q.id === result.questionId)}
-            grade={grades[String(i)]}
-            isLoading={loading}
-          />
-        ))}
-      </div>
+      <ImmediateReviewQuestionReview
+        results={results}
+        round2Results={round2Results}
+        questions={questions}
+        grades={grades}
+        loading={loading}
+      />
 
       {saveError && (
         <p className="text-sm text-destructive text-center">{saveError}</p>

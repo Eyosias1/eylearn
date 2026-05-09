@@ -10,6 +10,7 @@ import { ImmediateReviewSubtopicPicker } from "@/components/session/immediate-re
 import { ImmediateReviewQuestionSlider } from "@/components/session/immediate-review/ImmediateReviewQuestionSlider"
 import { InterleaveToggle } from "@/components/session/config/InterleaveToggle"
 import { ElaborativeToggle } from "@/components/session/config/ElaborativeToggle"
+import { RequeueToggle } from "@/components/session/config/RequeueToggle"
 import { SessionLengthPicker } from "@/components/session/config/SessionLengthPicker"
 import { useSessionConfig } from "@/hooks/useSessionConfig"
 import type { Subject } from "@/types/SubjectType"
@@ -32,7 +33,7 @@ type Props = { subjects: Subject[]; topics: Topic[]; subtopics: Subtopic[]; subt
 
 export function SessionConfigForm({ subjects, topics, subtopics, subtopicQuestionCounts }: Props) {
   const router = useRouter()
-  const { config, setMode, toggleSubject, setSubtopicId, setQuestionCount, setInterleave, setElaborativeInterrogation, setLength } = useSessionConfig()
+  const { config, setMode, toggleSubject, setSubtopicId, setQuestionCount, setInterleave, setElaborativeInterrogation, setRequeue, setLength } = useSessionConfig()
 
   const isImmediate    = config.mode === "immediate-review"
   const subtopicMax    = config.subtopicId ? (subtopicQuestionCounts[config.subtopicId] ?? 1) : 1
@@ -44,7 +45,7 @@ export function SessionConfigForm({ subjects, topics, subtopics, subtopicQuestio
     if (!canStart) return
     const duration = config.length === "custom" ? config.customMinutes : config.length
     if (isImmediate) {
-      router.push(`/session/immediate-review?subtopic=${config.subtopicId}&duration=${duration}&count=${config.questionCount}`)
+      router.push(`/session/immediate-review?subtopic=${config.subtopicId}&duration=${duration}&count=${config.questionCount}&requeue=${config.requeue ? "1" : "0"}&elaborative=${config.elaborativeInterrogation ? "1" : "0"}&t=${Date.now()}`)
     }
   }
 
@@ -60,8 +61,20 @@ export function SessionConfigForm({ subjects, topics, subtopics, subtopicQuestio
         <ImmediateReviewQuestionSlider value={Math.min(config.questionCount, subtopicMax)} max={subtopicMax} onChange={setQuestionCount} />
       )}
 
-      <InterleaveToggle enabled={config.interleave} onChange={setInterleave} />
-      <ElaborativeToggle enabled={config.elaborativeInterrogation} onChange={setElaborativeInterrogation} />
+      <div className={cn(
+        // layout
+        "grid",
+        // sizing
+        "grid-cols-1",
+        // spacing
+        "gap-3",
+        // mobile
+        "sm:grid-cols-3",
+      )}>
+        <InterleaveToggle enabled={config.interleave} onChange={setInterleave} />
+        <ElaborativeToggle enabled={config.elaborativeInterrogation} onChange={setElaborativeInterrogation} />
+        <RequeueToggle enabled={config.requeue} onChange={setRequeue} />
+      </div>
       <SessionLengthPicker selected={config.length} onSelect={setLength} />
 
       <div className={cn("flex flex-col items-center", "gap-2")}>

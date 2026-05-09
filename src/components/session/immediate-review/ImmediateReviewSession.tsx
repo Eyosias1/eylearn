@@ -14,11 +14,11 @@ import { ImmediateReviewSummary } from "@/components/session/summary/ImmediateRe
 import { cn } from "@/lib/utils"
 import type { Question } from "@/types/QuestionType"
 
-type Props = { questions: Question[]; durationMinutes: number; subtopicId: string }
+type Props = { questions: Question[]; durationMinutes: number; subtopicId: string; enableRound2: boolean; elaborativeInterrogation: boolean }
 
-export function ImmediateReviewSession({ questions, durationMinutes, subtopicId }: Props) {
+export function ImmediateReviewSession({ questions, durationMinutes, subtopicId, enableRound2, elaborativeInterrogation }: Props) {
   const router  = useRouter()
-  const session = useImmediateReviewSession(questions, durationMinutes, subtopicId)
+  const session = useImmediateReviewSession(questions, durationMinutes, subtopicId, enableRound2, elaborativeInterrogation)
 
   if (session.stage === "summary")        return <ImmediateReviewSummary session={session} />
   if (session.stage === "between-rounds") return <ImmediateReviewBetweenRounds session={session} />

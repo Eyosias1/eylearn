@@ -8,8 +8,8 @@ import type { Question } from "@/types/QuestionType"
 
 type Props = { result: ImmediateReviewResult; question: Question | undefined; grade: GradeData | undefined; isLoading: boolean }
 
-const RATING_COLOR = { "correct": "text-green-500", "partial": "text-yellow-500", "missed": "text-destructive" }
-const RATING_BG    = { "correct": "bg-green-200/15", "partial": "bg-yellow-300/15", "missed": "bg-red-500/10" }
+const RATING_COLOR = { "correct": "text-green-500", "partial": "text-yellow-500", "missed": "text-destructive", "skipped": "text-muted-foreground" }
+const RATING_BG    = { "correct": "bg-green-200/15", "partial": "bg-yellow-300/15", "missed": "bg-red-500/10", "skipped": "bg-muted/40" }
 
 function getMismatchMessage(result: ImmediateReviewResult, grade: GradeData | undefined) {
   if (result.confidence === "high" && result.selfRating === "missed")  return "High confidence but missed, likely a misconception."
