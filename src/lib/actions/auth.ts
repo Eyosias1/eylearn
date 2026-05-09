@@ -16,7 +16,7 @@ export async function signIn(data: { email: string; password: string }) {
   }
 
   revalidatePath("/", "layout")
-  redirect("/")
+  redirect("/dashboard")
 }
 
 export async function signOut() {
