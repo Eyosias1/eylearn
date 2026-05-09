@@ -35,7 +35,7 @@ export function AppSidebar() {
             src="/eyLearnLogo.svg"
             alt="EyLearn logo"
             width={32}
-            height={30}
+            height={32}
             className={cn(
               // sizing
               "size-8 shrink-0",

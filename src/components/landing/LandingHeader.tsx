@@ -1,6 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/landing/ThemeToggle"
 import { cn } from "@/lib/utils"
 
 export function LandingHeader() {
@@ -29,6 +30,7 @@ export function LandingHeader() {
         <Link href="#science">Science</Link>
       </nav>
       <div className={cn("flex items-center gap-2")}>
+        <ThemeToggle />
         <Button asChild variant="ghost" size="sm">
           <Link href="/sign-in">Sign in</Link>
         </Button>
