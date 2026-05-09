@@ -1,8 +1,8 @@
 "use client"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { HistoryCalendar } from "@/components/studyplan/history/HistoryCalendar"
-import { RetrospectiveFull } from "@/components/session-history/table/retrospective-full"
+import { HistoryCalendar } from "@/components/plan/history/HistoryCalendar"
+import { RetrospectiveFull } from "@/components/plan/history/table/retrospective-full"
 import { cn } from "@/lib/utils"
 import type { RetroTopic } from "@/types/progress"
 

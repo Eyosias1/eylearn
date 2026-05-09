@@ -3,10 +3,10 @@
 import { useState, useMemo } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { HistoryDayDetail } from "@/components/studyplan/history/HistoryDayDetail"
+import { HistoryDayDetail } from "@/components/plan/history/HistoryDayDetail"
 import { cn } from "@/lib/utils"
 import type { RetroTopic } from "@/types/progress"
-import type { DayEntry } from "@/components/studyplan/history/HistoryDayDetail"
+import type { DayEntry } from "@/components/plan/history/HistoryDayDetail"
 
 const RATING_COLOR = { strong: "bg-emerald-500", partial: "bg-yellow-400", poor: "bg-red-500" }
 const DAY_LABELS   = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]

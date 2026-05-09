@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { MonthDayCell } from "@/components/studyplan/blocks/month-day-cell"
-import { DaySessionsDialog } from "@/components/studyplan/views/day-sessions-dialog"
+import { MonthDayCell } from "@/components/plan/calendar/blocks/month-day-cell"
+import { DaySessionsDialog } from "@/components/plan/calendar/views/day-sessions-dialog"
 import type { CalendarEvent, PlanEvent, PlanTopic } from "@/types/studyplan"
 
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -13,9 +13,10 @@ interface Props {
   calendarEvents: CalendarEvent[]
   selectedTopic: PlanTopic | null
   onSelectTopic: (topic: PlanTopic) => void
+  onCreateAt: (dateStr: string, startTime: string) => void
 }
 
-export function MonthView({ date, events, calendarEvents, selectedTopic, onSelectTopic }: Props) {
+export function MonthView({ date, events, calendarEvents, selectedTopic, onSelectTopic, onCreateAt }: Props) {
   const [dialogDate, setDialogDate] = useState<string | null>(null)
 
   const year  = date.getFullYear()
@@ -61,6 +62,7 @@ export function MonthView({ date, events, calendarEvents, selectedTopic, onSelec
                 selectedTopic={selectedTopic}
                 onSelectTopic={onSelectTopic}
                 onOpenDialog={() => setDialogDate(dateStr)}
+                onCreateAt={onCreateAt}
               />
             )
           })}

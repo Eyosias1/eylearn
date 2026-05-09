@@ -1,8 +1,8 @@
 "use client"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { PlanCalendar } from "@/components/studyplan/views/plan-calendar"
-import { HistoryTab } from "@/components/studyplan/history/HistoryTab"
+import { PlanCalendar } from "@/components/plan/calendar/views/plan-calendar"
+import { HistoryTab } from "@/components/plan/history/HistoryTab"
 import { cn } from "@/lib/utils"
 import type { CalendarEvent, PlanEvent } from "@/types/studyplan"
 import type { RetroTopic } from "@/types/progress"
@@ -13,7 +13,7 @@ interface Props {
   topics:         RetroTopic[]
 }
 
-export function StudyPlanShell({ events, calendarEvents, topics }: Props) {
+export function PlanShell({ events, calendarEvents, topics }: Props) {
   return (
     <Tabs defaultValue="plan" className={cn("h-full flex flex-col")}>
       <TabsList className="w-fit">

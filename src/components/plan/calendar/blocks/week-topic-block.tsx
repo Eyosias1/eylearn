@@ -1,5 +1,6 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { encodeDrag, storeDragOffset } from "@/lib/studyplan/drag-time-utility"
 import { useBlockResize } from "@/hooks/useBlockResize"
@@ -35,7 +36,8 @@ export function WeekTopicBlock({ topic, selected, onClick, layout }: Props) {
   const height = Math.max((duration / 60) * WEEK_HOUR_PX, 24)
 
   return (
-    <button
+    <Button
+      variant="ghost"
       draggable
       onDragStart={(e) => {
         const offsetMinutes = ((e.clientY - e.currentTarget.getBoundingClientRect().top) / WEEK_HOUR_PX) * 60
@@ -44,11 +46,14 @@ export function WeekTopicBlock({ topic, selected, onClick, layout }: Props) {
         e.dataTransfer.setData(key, data)
         e.dataTransfer.effectAllowed = 'move'
       }}
+      data-block="true"
       onClick={onClick}
       style={{ top, height, left: `calc(${l}% + 1px)`, width: `calc(${w}% - 2px)` }}
       className={cn(
         // layout
         "absolute cursor-pointer",
+        // spacing
+        "p-0 h-auto",
         // animation
         "transition-opacity",
         // conditional
@@ -67,6 +72,6 @@ export function WeekTopicBlock({ topic, selected, onClick, layout }: Props) {
       >
         <div className="w-6 h-0.5 rounded-full bg-foreground/50" />
       </div>
-    </button>
+    </Button>
   )
 }

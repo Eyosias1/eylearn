@@ -1,12 +1,12 @@
 "use client"
 
 import { useState, useTransition } from "react"
-import { X, Pencil, Clock, Timer } from "lucide-react"
+import { X, Pencil, Trash2, Clock, Timer } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { updateCalendarEvent } from "@/lib/actions/studyplan/calendar"
+import { updateCalendarEvent, deleteCalendarEvent } from "@/lib/actions/studyplan/calendar"
 import type { CalendarEvent } from "@/types/studyplan"
 
 interface Props {
@@ -79,6 +79,14 @@ function EditContent({ event, onSaved, onCancel }: { event: CalendarEvent; onSav
 
 export function CalendarEventDetailPanel({ event, onClose }: Props) {
   const [editing, setEditing] = useState(false)
+  const [isPending, startTransition] = useTransition()
+
+  function handleDelete() {
+    startTransition(async () => {
+      await deleteCalendarEvent(event.id)
+      onClose()
+    })
+  }
 
   return (
     <div className={cn(
@@ -101,6 +109,9 @@ export function CalendarEventDetailPanel({ event, onClose }: Props) {
         <div className="flex items-center gap-1 shrink-0 -mt-0.5">
           <Button variant="ghost" size="icon-sm" onClick={() => setEditing(e => !e)} className={cn(editing && "bg-muted")}>
             <Pencil className="size-3.5" />
+          </Button>
+          <Button variant="ghost" size="icon-sm" onClick={handleDelete} disabled={isPending} className="text-destructive hover:text-destructive">
+            <Trash2 className="size-3.5" />
           </Button>
           <Button variant="ghost" size="icon-sm" onClick={onClose}>
             <X className="size-3.5" />

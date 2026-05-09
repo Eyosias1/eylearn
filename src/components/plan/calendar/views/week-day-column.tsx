@@ -3,8 +3,8 @@
 import { useRef, useState } from "react"
 import { layoutBlocks } from "@/lib/studyplan/layout-blocks"
 import { decodeDrag, snapMinutes, snapIndicatorTop, minutesToTime } from "@/lib/studyplan/drag-time-utility"
-import { CalendarEventBlock } from "@/components/studyplan/blocks/calendar-event-block"
-import { WeekTopicBlock, WEEK_HOUR_PX } from "@/components/studyplan/blocks/week-topic-block"
+import { CalendarEventBlock } from "@/components/plan/calendar/blocks/calendar-event-block"
+import { WeekTopicBlock, WEEK_HOUR_PX } from "@/components/plan/calendar/blocks/week-topic-block"
 import type { CalendarEvent, PlanTopic } from "@/types/studyplan"
 
 const HOURS = Array.from({ length: 16 }, (_, i) => i + 6)
@@ -18,11 +18,14 @@ interface Props {
   selectedCalEvent: CalendarEvent | null
   onSelectCalEvent: (e: CalendarEvent) => void
   onDrop: (targetDateStr: string, id: string, type: 'topic' | 'calev', newTime: string) => void
+  onCreateAt: (dateStr: string, startTime: string) => void
 }
 
-export function WeekDayColumn({ dateStr, topics, calEvs, selectedTopic, onSelectTopic, selectedCalEvent, onSelectCalEvent, onDrop }: Props) {
+export function WeekDayColumn({ dateStr, topics, calEvs, selectedTopic, onSelectTopic, selectedCalEvent, onSelectCalEvent, onDrop, onCreateAt }: Props) {
   const gridRef = useRef<HTMLDivElement>(null)
   const [indicatorTop, setIndicatorTop] = useState<number | null>(null)
+  const [hoverTop,     setHoverTop]     = useState<number | null>(null)
+  const [hoverTime,    setHoverTime]    = useState<string | null>(null)
 
   const allItems     = [
     ...calEvs.map(e => ({ startTime: e.startTime, durationMinutes: e.durationMinutes })),
@@ -33,7 +36,7 @@ export function WeekDayColumn({ dateStr, topics, calEvs, selectedTopic, onSelect
   const topicLayouts = layout.slice(calEvs.length)
   const totalH       = HOURS.length * WEEK_HOUR_PX
 
-  function relY(e: React.DragEvent) {
+  function relY(e: React.DragEvent | React.MouseEvent) {
     return e.clientY - (gridRef.current?.getBoundingClientRect().top ?? 0)
   }
 
@@ -45,13 +48,33 @@ export function WeekDayColumn({ dateStr, topics, calEvs, selectedTopic, onSelect
     onDrop(dateStr, drag.id, drag.type, minutesToTime(snapMinutes(relY(e), WEEK_HOUR_PX, drag.offsetMinutes)))
   }
 
+  function handleMouseMove(e: React.MouseEvent) {
+    if ((e.target as HTMLElement).closest("[data-block]")) {
+      setHoverTop(null)
+      setHoverTime(null)
+      return
+    }
+    const y = relY(e)
+    setHoverTop(snapIndicatorTop(y, WEEK_HOUR_PX))
+    setHoverTime(minutesToTime(snapMinutes(y, WEEK_HOUR_PX, 0)))
+  }
+
+  function handleClick(e: React.MouseEvent) {
+    if ((e.target as HTMLElement).closest("[data-block]")) return
+    if (!hoverTime) return
+    onCreateAt(dateStr, hoverTime)
+  }
+
   return (
     <div
       ref={gridRef}
-      className="border-r last:border-r-0 relative"
-      onDragOver={(e) => { e.preventDefault(); setIndicatorTop(snapIndicatorTop(relY(e), WEEK_HOUR_PX)) }}
+      className="border-r last:border-r-0 relative cursor-crosshair"
+      onDragOver={(e) => { e.preventDefault(); setHoverTop(null); setIndicatorTop(snapIndicatorTop(relY(e), WEEK_HOUR_PX)) }}
       onDragLeave={() => setIndicatorTop(null)}
       onDrop={handleDrop}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => { setHoverTop(null); setHoverTime(null) }}
+      onClick={handleClick}
     >
       {HOURS.map(h => <div key={h} style={{ height: WEEK_HOUR_PX }} className="border-b last:border-b-0" />)}
       <div className="absolute inset-0" style={{ height: totalH }}>
@@ -63,6 +86,9 @@ export function WeekDayColumn({ dateStr, topics, calEvs, selectedTopic, onSelect
         ))}
         {indicatorTop !== null && (
           <div className="absolute inset-x-0 h-0.5 bg-foreground/40 pointer-events-none z-20" style={{ top: indicatorTop }} />
+        )}
+        {hoverTop !== null && indicatorTop === null && (
+          <div className="absolute inset-x-0 h-px border-t border-dashed border-primary/50 pointer-events-none z-10" style={{ top: hoverTop }} />
         )}
       </div>
     </div>

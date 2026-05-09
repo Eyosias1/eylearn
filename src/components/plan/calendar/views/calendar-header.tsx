@@ -2,7 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { ImportCalendarButton } from "@/components/studyplan/import/import-calendar-button"
+import { ImportCalendarButton } from "@/components/plan/calendar/import/import-calendar-button"
 import { cn } from "@/lib/utils"
 import type { CalendarView } from "@/types/studyplan"
 
@@ -47,14 +47,15 @@ export function CalendarHeader({ date, view, onPrev, onNext, onToday, onViewChan
         <ImportCalendarButton />
         <div className="flex items-center rounded-lg border p-0.5 gap-0.5">
           {VIEWS.map((v) => (
-            <button
+            <Button
+              variant="ghost"
               key={v.value}
               onClick={() => onViewChange(v.value)}
               className={cn(
                 // layout
                 "flex items-center",
                 // spacing
-                "px-3 py-1",
+                "px-3 py-1 h-auto",
                 // typography
                 "text-sm",
                 // border
@@ -68,7 +69,7 @@ export function CalendarHeader({ date, view, onPrev, onNext, onToday, onViewChan
               )}
             >
               {v.label}
-            </button>
+            </Button>
           ))}
         </div>
       </div>

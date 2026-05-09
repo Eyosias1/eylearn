@@ -2,8 +2,8 @@
 
 import { cn } from "@/lib/utils"
 import { useWeekDrop } from "@/hooks/useWeekDrop"
-import { WeekDayColumn } from "@/components/studyplan/views/week-day-column"
-import { WEEK_HOUR_PX } from "@/components/studyplan/blocks/week-topic-block"
+import { WeekDayColumn } from "@/components/plan/calendar/views/week-day-column"
+import { WEEK_HOUR_PX } from "@/components/plan/calendar/blocks/week-topic-block"
 import type { CalendarEvent, PlanEvent, PlanTopic } from "@/types/studyplan"
 
 const HOURS = Array.from({ length: 16 }, (_, i) => i + 6)
@@ -26,9 +26,10 @@ interface Props {
   onSelectTopic: (topic: PlanTopic) => void
   selectedCalEvent: CalendarEvent | null
   onSelectCalEvent: (e: CalendarEvent) => void
+  onCreateAt: (dateStr: string, startTime: string) => void
 }
 
-export function WeekView({ date, events, calendarEvents, selectedTopic, onSelectTopic, selectedCalEvent, onSelectCalEvent }: Props) {
+export function WeekView({ date, events, calendarEvents, selectedTopic, onSelectTopic, selectedCalEvent, onSelectCalEvent, onCreateAt }: Props) {
   const days    = getWeekDays(date)
   const onDrop  = useWeekDrop(events, calendarEvents)
   const eventMap = new Map(events.map((e) => [e.date, e.topics]))
@@ -85,6 +86,7 @@ export function WeekView({ date, events, calendarEvents, selectedTopic, onSelect
                 selectedCalEvent={selectedCalEvent}
                 onSelectCalEvent={onSelectCalEvent}
                 onDrop={onDrop}
+                onCreateAt={onCreateAt}
               />
             )
           })}

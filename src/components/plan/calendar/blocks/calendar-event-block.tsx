@@ -35,6 +35,7 @@ export function CalendarEventBlock({ event, hourPx, layout, selected, onClick }:
 
   return (
     <div
+      data-block="true"
       draggable
       onDragStart={(e) => {
         const offsetMinutes = ((e.clientY - e.currentTarget.getBoundingClientRect().top) / hourPx) * 60

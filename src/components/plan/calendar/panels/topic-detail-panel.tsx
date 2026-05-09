@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
-import { X, Pencil } from "lucide-react"
+import { useState, useTransition } from "react"
+import { X, Pencil, Trash2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { TopicViewContent } from "@/components/studyplan/panels/topic-view-content"
-import { TopicEditForm } from "@/components/studyplan/panels/topic-edit-form"
+import { TopicViewContent } from "@/components/plan/calendar/panels/topic-view-content"
+import { TopicEditForm } from "@/components/plan/calendar/panels/topic-edit-form"
+import { deleteScheduledStudy } from "@/lib/actions/studyplan"
 import type { PlanTopic } from "@/types/studyplan"
 
 interface Props {
@@ -15,6 +16,14 @@ interface Props {
 
 export function TopicDetailPanel({ topic, onClose }: Props) {
   const [editing, setEditing] = useState(false)
+  const [isPending, startTransition] = useTransition()
+
+  function handleDelete() {
+    startTransition(async () => {
+      await deleteScheduledStudy(topic.id)
+      onClose()
+    })
+  }
 
   return (
     <div className={cn(
@@ -38,13 +47,11 @@ export function TopicDetailPanel({ topic, onClose }: Props) {
           </div>
         </div>
         <div className="flex items-center gap-1 shrink-0 -mt-0.5">
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            onClick={() => setEditing((e) => !e)}
-            className={cn(editing && "bg-muted")}
-          >
+          <Button variant="ghost" size="icon-sm" onClick={() => setEditing((e) => !e)} className={cn(editing && "bg-muted")}>
             <Pencil className="size-3.5" />
+          </Button>
+          <Button variant="ghost" size="icon-sm" onClick={handleDelete} disabled={isPending} className="text-destructive hover:text-destructive">
+            <Trash2 className="size-3.5" />
           </Button>
           <Button variant="ghost" size="icon-sm" onClick={onClose}>
             <X className="size-3.5" />

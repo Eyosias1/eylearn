@@ -5,11 +5,12 @@ import { UploadCloud, CheckCircle2 } from "lucide-react"
 import type { DateRange } from "react-day-picker"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Input } from "@/components/ui/input"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ImportDateRange } from "@/components/studyplan/import/import-date-range"
+import { ImportDateRange } from "@/components/plan/calendar/import/import-date-range"
 import { parseIcs } from "@/lib/studyplan/parse-ics"
 import { importCalendarEvents } from "@/lib/actions/studyplan/calendar"
 import { cn } from "@/lib/utils"
@@ -72,7 +73,7 @@ export function ImportCalendarModal({ onClose }: Props) {
   function toggleOne(idx: number) {
     setSelected(prev => {
       const next = new Set(prev)
-      next.has(idx) ? next.delete(idx) : next.add(idx)
+      if (next.has(idx)) { next.delete(idx) } else { next.add(idx) }
       return next
     })
   }
@@ -146,7 +147,7 @@ export function ImportCalendarModal({ onClose }: Props) {
             )}
           </div>
 
-          <input ref={inputRef} type="file" accept=".ics" className="hidden"
+          <Input ref={inputRef} type="file" accept=".ics" className="hidden"
             onChange={(e) => { const f = e.target.files?.[0]; if (f) processFile(f) }} />
 
           {/* Filters + preview */}
